@@ -7,7 +7,7 @@ import Pagination from './components/Pagination';
 function App() {
   
    return (
-     <div>
+     <div className='conainer'>
     <Top />
     <Tasks />
     <Pagination />
