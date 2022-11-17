@@ -4,7 +4,7 @@ import styles from './Tasks.module.css';
 const Tasks = () => {
     return (
         <div className={styles.p}>
-            Здесь будет список задач
+             There are no tasks right now
         </div>
     )
 }
