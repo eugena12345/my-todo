@@ -1,12 +1,13 @@
 import React from "react";
-import styles from './Pagination.module.css';
+import styles from "./Pagination.module.css";
 
 const Pagination = () => {
-    return (
-        <div className = {styles.p}>
-            здесь будет пагинация страниц
-        </div>
-    )
-}
+    const pageNumbers = [1,2,3]
+  return (<div className={styles.p}>
+      {pageNumbers.map((el) => {
+          return <button>{el}</button>
+      })}
+  </div>);
+};
 
 export default Pagination;
