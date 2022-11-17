@@ -1,8 +1,9 @@
 import React from "react";
+import styles from './Pagination.module.css';
 
 const Pagination = () => {
     return (
-        <div>
+        <div className = {styles.p}>
             здесь будет пагинация страниц
         </div>
     )
