@@ -1,5 +1,10 @@
 .first {
-    background-color: lavender;
+    text-align: center;
+}
+
+input {
+width: 80%;
+margin-bottom: 10px;
 }
 
 .select {
