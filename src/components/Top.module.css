@@ -1,10 +1,14 @@
+h1{
+    color: #F137A6;
+    
+}
 .first {
     text-align: center;
 }
 
 input {
-width: 80%;
-margin-bottom: 10px;
+    width: 80%;
+    margin-bottom: 10px;
 }
 
 .select {
@@ -20,4 +24,32 @@ margin-bottom: 10px;
 
 .selectDone {
     background-color: pink;
+}
+
+button {
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px 10px;
+    margin: 5px 5px;
+    border-radius: 10px;
+    box-shadow: 0 0 40px 40px #F137A6 inset, 0 0 0 0 #F137A6;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: white;
+    transition: .15s ease-in-out;
+    border: none;
+    background-color: white;
+}
+
+button:hover {
+    box-shadow: 0 0 5px 0 #F137A6 inset, 0 0 10px 2px #F137A6;
+    color: #F137A6;
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 0 5px 0 #08ff98 inset, 0 0 10px 2px #08ff98;
+    color: #08ff98;
+    /*box-shadow: 0 5px 10px #eb1595, 0 0 2px 0 #eb1595 inset;*/
 }
