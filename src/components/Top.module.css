@@ -1,3 +1,18 @@
 .first {
     background-color: lavender;
 }
+
+.select {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selectDate {
+    background-color: green;
+}
+
+.selectDone {
+    background-color: pink;
+}
