@@ -1,11 +1,18 @@
-.conainer {
-width: 600px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-margin-left: auto;
-margin-right: auto;
+* {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 1px;
+  color: #af3e82;
+}
 
+.conainer {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 1px;
 }
 
 /* .App {
