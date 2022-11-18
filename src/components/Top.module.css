@@ -1,14 +1,27 @@
-h1{
+h1 {
     color: #F137A6;
-    
+
 }
+
 .first {
     text-align: center;
 }
 
+.inputTask {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
 input {
-    width: 80%;
-    margin-bottom: 10px;
+    flex: 1;
+        border-color: #F137A6;
+        border-radius: 10px;
+    
+}
+
+input:hover {
+    box-shadow: 0 0 5px 0 #F137A6 inset, 0 0 10px 2px #F137A6;
 }
 
 .select {
@@ -19,11 +32,11 @@ input {
 }
 
 .selectDate {
-    background-color: green;
+    width: auto;
 }
 
 .selectDone {
-    background-color: pink;
+    width: auto;
 }
 
 button {
