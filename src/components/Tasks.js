@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Task from "./Task";
 import styles from "./Tasks.module.css";
 
 const Tasks = () => {
-  const taskArray = [
+  const [taskArray, setTaskArray] = useState([
     {
       id: 1,
       taskText: "buy a cup",
@@ -19,17 +19,27 @@ const Tasks = () => {
     },
     {
       id: 4,
-      taskText: "bake coocie",
+      taskText: "bake cookie",
       statusDone: false,
       createDate: "10/01/2022",
     },
-  ];
+  ]);
 
   return (
     <div className={styles.p}>
       {taskArray.length
         ? taskArray.map((el) => {
-           return(<Task taskText={el.taskText} />) })
+            return (
+              <div key={el.id}>
+                <Task
+                  taskText={el.taskText}
+                  taskId={el.id}
+                  taskArray={taskArray}
+                  setTaskArray={setTaskArray}
+                />
+              </div>
+            );
+          })
         : "There are no tasks right now"}
     </div>
   );
