@@ -5,6 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 const Top = ({ taskArray, setTaskArray }) => {
   const [value, setValue] = useState("");
   const addTask = () => {
+      if (value === "") {
+          return;
+      }
     const newTaskArray = [
       ...taskArray,
       {
@@ -21,7 +24,7 @@ const Top = ({ taskArray, setTaskArray }) => {
     <div className={styles.first}>
       <h1>To Do</h1>
       <div className={styles.inputTask}>
-        <input onChange={(e) => setValue(e.target.value)} value={value}></input>
+        <input onChange={(e) => setValue(e.target.value)} placeholder='input a task' value={value}></input>
         <button onClick={addTask}>Add Task</button>
       </div>
       <div className={styles.select}>
