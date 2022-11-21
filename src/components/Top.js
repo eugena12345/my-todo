@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Top.module.css";
+import { v4 as uuidv4 } from 'uuid';
 
 const Top = ({ taskArray, setTaskArray }) => {
   const [value, setValue] = useState("");
@@ -7,7 +8,7 @@ const Top = ({ taskArray, setTaskArray }) => {
     const newTaskArray = [
       ...taskArray,
       {
-        id: 1,
+        id: uuidv4(),
         taskText: value,
         statusDone: false,
         createDate: "10/01/2022",
