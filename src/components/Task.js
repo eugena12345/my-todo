@@ -31,6 +31,9 @@ const Task = ({ taskText, taskId, statusDone, taskArray, setTaskArray }) => {
     if (event.keyCode === 13) {
       saveChangedTask(taskId);
     }
+    if (event.key === "Escape") {
+      setEdit(false);
+    }
   };
 
   const changeStatus = (taskId) => {
