@@ -66,7 +66,7 @@ const Task = ({ taskText, taskId, statusDone, taskArray, setTaskArray }) => {
             checked={chekced}
             onChange={() => changeStatus(taskId)}
           />
-          <div className={styles.taskText}>{taskText}</div>
+          <div className={styles.taskText} onDoubleClick={()=>editeTask(taskId, taskText)}>{taskText}</div>
           <div className={styles.taskButton}>
             <div>Date</div>
             <button onClick={() => editeTask(taskId, taskText)}>Edit</button>
