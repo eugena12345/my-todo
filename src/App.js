@@ -14,7 +14,7 @@ function App() {
       statusDone: false,
       createDate: "10/01/2022",
     },
-    { id: 2, taskText: "bla-bla", statusDone: false, createDate: "10/01/2022" },
+    { id: 2, taskText: "bla-bla", statusDone: true, createDate: "10/01/2022" },
     {
       id: 3,
       taskText: "go to the theatre",
@@ -24,7 +24,7 @@ function App() {
     {
       id: 4,
       taskText: "bake cookie",
-      statusDone: false,
+      statusDone: true,
       createDate: "10/01/2022",
     },
   ]);

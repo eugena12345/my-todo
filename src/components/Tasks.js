@@ -16,6 +16,7 @@ const Tasks = ({taskArray, setTaskArray}) => {
                   taskId={el.id}
                   taskArray={taskArray}
                   setTaskArray={setTaskArray}
+                  statusDone={el.statusDone}
                 />
               </div>
             );

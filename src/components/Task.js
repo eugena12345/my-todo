@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import styles from "./Task.module.css";
 
-const Task = ({ taskText, taskId, taskArray, setTaskArray }) => {
+const Task = ({ taskText, taskId, statusDone, taskArray, setTaskArray }) => {
   //также смущает что в пропсах и весь массив задач и отдельная задача передается, но это уйдет, когда будет отправляться на сервер задача
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState("");
+  const [chekced, setChekced] = useState(statusDone);
 
   const deleteTask = (taskId) => {
     const newtaskArray = taskArray.filter((item) => item.id !== taskId);
@@ -27,6 +28,17 @@ const Task = ({ taskText, taskId, taskArray, setTaskArray }) => {
     setEdit(false);
   };
 
+  const changeStatus = (taskId)=> {
+    setChekced(!chekced);
+const newTaskArray = [...taskArray].map((item)=>{
+  if (item.id === taskId) {
+item.statusDone = chekced;
+  }
+  return item;
+});
+setTaskArray(newTaskArray);
+  }
+
   return (
     <div>
       {edit ? (
@@ -36,7 +48,7 @@ const Task = ({ taskText, taskId, taskArray, setTaskArray }) => {
         </div>
       ) : (
         <div className={styles.taskBox}>
-          <input type="checkbox" className={styles.checkbox} />
+          <input type="checkbox" className={styles.checkbox} checked={chekced} onChange={()=>changeStatus(taskId)}/>
           <div className={styles.taskText}>{taskText}</div>
           <div className={styles.taskButton}>
             <div>Date</div>
