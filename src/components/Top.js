@@ -20,6 +20,13 @@ const Top = ({ taskArray, setTaskArray }) => {
     setTaskArray(newTaskArray);
     setValue("");
   };
+
+  const addTaskWithEnter = (event) => {
+    if (event.keyCode === 13) {
+      addTask();
+    }
+  };
+
   return (
     <div className={styles.first}>
       <h1>To Do</h1>
@@ -28,6 +35,7 @@ const Top = ({ taskArray, setTaskArray }) => {
           onChange={(e) => setValue(e.target.value)}
           placeholder="input a task"
           value={value}
+          onKeyDown={addTaskWithEnter}
         ></input>
         <button onClick={addTask}>Add Task</button>
       </div>

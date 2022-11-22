@@ -27,28 +27,45 @@ const Task = ({ taskText, taskId, statusDone, taskArray, setTaskArray }) => {
     setTaskArray(changedTaskArray);
     setEdit(false);
   };
+  const changeTaskWithEnter = (event, taskId) => {
+    if (event.keyCode === 13) {
+      saveChangedTask(taskId);
+    }
+  };
 
-  const changeStatus = (taskId)=> {
+  const changeStatus = (taskId) => {
     setChekced(!chekced);
-const newTaskArray = [...taskArray].map((item)=>{
-  if (item.id === taskId) {
-item.statusDone = chekced;
-  }
-  return item;
-});
-setTaskArray(newTaskArray);
-  }
+    const newTaskArray = [...taskArray].map((item) => {
+      if (item.id === taskId) {
+        item.statusDone = chekced;
+      }
+      return item;
+    });
+    setTaskArray(newTaskArray);
+  };
 
   return (
     <div>
       {edit ? (
         <div className={styles.editTask}>
-          <input className={styles.input} onChange={(e) => setValue(e.target.value)} value={value} />
+          <input
+            className={styles.input}
+            onChange={(e) => setValue(e.target.value)}
+            value={value}
+            onKeyDown={(event) => {
+              changeTaskWithEnter(event, taskId);
+            }}
+          />
           <button onClick={() => saveChangedTask(taskId)}>Save</button>
         </div>
       ) : (
         <div className={styles.taskBox}>
-          <input type="checkbox" className={styles.checkbox} checked={chekced} onChange={()=>changeStatus(taskId)}/>
+          <input
+            type="checkbox"
+            className={styles.checkbox}
+            checked={chekced}
+            onChange={() => changeStatus(taskId)}
+          />
           <div className={styles.taskText}>{taskText}</div>
           <div className={styles.taskButton}>
             <div>Date</div>
