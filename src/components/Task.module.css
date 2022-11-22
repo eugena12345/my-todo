@@ -29,3 +29,13 @@
     flex-wrap: nowrap;
     align-items: center;
 }
+
+.editTask {
+    display: flex;
+}
+
+input {
+    flex: 1;
+    border-color: #F137A6;
+    border-radius: 10px;
+}

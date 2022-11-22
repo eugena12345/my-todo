@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./Task.module.css";
 
 const Task = ({ taskText, taskId, taskArray, setTaskArray }) => {
+  //также смущает что в пропсах и весь массив задач и отдельная задача передается, но это уйдет, когда будет отправляться на сервер задача
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState("");
 
@@ -10,6 +11,7 @@ const Task = ({ taskText, taskId, taskArray, setTaskArray }) => {
     setTaskArray(newtaskArray);
   };
   const editeTask = (taskId, taskText) => {
+    //предупреждение в консоли о неконтролруемом инпуте
     setEdit(true);
     setValue(taskText);
   };
@@ -28,11 +30,8 @@ const Task = ({ taskText, taskId, taskArray, setTaskArray }) => {
   return (
     <div>
       {edit ? (
-        <div>
-          <input
-            onChange={(e) => setValue(e.target.value)}
-            value={value}
-          ></input>
+        <div className={styles.editTask}>
+          <input className={styles.input} onChange={(e) => setValue(e.target.value)} value={value} />
           <button onClick={() => saveChangedTask(taskId)}>Save</button>
         </div>
       ) : (

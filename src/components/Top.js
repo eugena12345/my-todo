@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styles from "./Top.module.css";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const Top = ({ taskArray, setTaskArray }) => {
   const [value, setValue] = useState("");
   const addTask = () => {
-      if (value === "") {
-          return;
-      }
+    if (value === "") {
+      return;
+    }
     const newTaskArray = [
       ...taskArray,
       {
@@ -18,13 +18,17 @@ const Top = ({ taskArray, setTaskArray }) => {
       },
     ];
     setTaskArray(newTaskArray);
-    setValue('');
+    setValue("");
   };
   return (
     <div className={styles.first}>
       <h1>To Do</h1>
       <div className={styles.inputTask}>
-        <input onChange={(e) => setValue(e.target.value)} placeholder='input a task' value={value}></input>
+        <input
+          onChange={(e) => setValue(e.target.value)}
+          placeholder="input a task"
+          value={value}
+        ></input>
         <button onClick={addTask}>Add Task</button>
       </div>
       <div className={styles.select}>
