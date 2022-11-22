@@ -1,6 +1,4 @@
 .taskBox {
-    /* width: 100%; */
-    height: 40px;
     border-width: 1px;
     border-style: solid;
     border-color: #F137A6;
@@ -13,6 +11,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.taskBox:hover {
+    box-shadow: 0 0 2px 0 #F137A6 inset, 0 0 5px 1px #F137A6;
 }
 
 .checkbox {
