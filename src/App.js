@@ -27,6 +27,7 @@ function App() {
     },
   ]);
   const [filtredTaskArray, setFiltredTaskArray] = useState(taskArray);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setFiltredTaskArray(taskArray);
@@ -47,7 +48,7 @@ const pageCount = Math.ceil(filtredTaskArray.length/5);
         setTaskArray={setTaskArray}
         setFiltredTaskArray={setFiltredTaskArray}
       />
-      {pageCount > 1 ? <Pagination pageCount={pageCount} /> : ""}
+      {pageCount > 1 ? <Pagination pageCount={pageCount} currentPage={currentPage} setCurrentPage={setCurrentPage} /> : ""}
     </div>
   );
 }
