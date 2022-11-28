@@ -2,8 +2,19 @@ import React, { useState } from "react";
 import styles from "./Top.module.css";
 import { v4 as uuidv4 } from "uuid";
 
-const Top = ({ taskArray, setTaskArray }) => {
+const Top = ({
+  taskArray,
+  setTaskArray,
+  //filtredTaskArray,
+  setFiltredTaskArray,
+}) => {
   const [value, setValue] = useState("");
+  const [typeFilterByDate, setTypeFilterByDate] = useState("OLD");
+  const [typeFilterByStatus, setTypeFilterByStatus] = useState("ALL");
+
+
+  //не перерисовывается после того как понажимаешь кнопки сделано не сделано, потом все и сортировка по дате не перерисовывается. 
+  //если какая-то задача помечена как выполненная при нажатой кнопке невыполнена, то она не перескакивает в выполненную
   const addTask = () => {
     if (value === "") {
       return;
@@ -14,7 +25,7 @@ const Top = ({ taskArray, setTaskArray }) => {
         id: uuidv4(),
         taskText: value,
         statusDone: false,
-        createDate: "10/01/2022",
+        createDate: Date.now(),
       },
     ];
     setTaskArray(newTaskArray);
@@ -25,6 +36,64 @@ const Top = ({ taskArray, setTaskArray }) => {
     if (event.keyCode === 13) {
       addTask();
     }
+  };
+  const filterTask = (typeFilterByDate, typeFilterByStatus) => {
+    console.log(
+      "в сортировке " +
+        typeFilterByDate +
+        " and " +
+        typeFilterByStatus +
+        "пошла сортировка по дате"
+    );
+    let newFiltredTaskArray;
+    if (typeFilterByDate === "OLD") {
+      newFiltredTaskArray = taskArray.sort(
+        (a, b) => a.createDate - b.createDate
+      );
+    }
+    if (typeFilterByDate === "NEW") {
+      newFiltredTaskArray = taskArray.sort(
+        (a, b) => b.createDate - a.createDate
+      );
+    }
+    // setFiltredTaskArray(newFiltredTaskArray);
+    console.log("после сортировки по дате: ");
+    console.log(newFiltredTaskArray);
+    let newnewTA;
+    if (typeFilterByStatus === "DONE") {
+      console.log("пошла сортировка по готовности");
+
+      newnewTA = newFiltredTaskArray.filter((item) => item.statusDone === true);
+      console.log("сейчас должен быть массив после сортировки DONE");
+      console.log(newnewTA);
+    }
+    if (typeFilterByStatus === "UNDONE") {
+      newnewTA = newFiltredTaskArray.filter(
+        (item) => item.statusDone === false
+      );
+    }
+    if (typeFilterByStatus === "ALL") {
+
+      newnewTA = newFiltredTaskArray;
+      console.log(newnewTA);
+    }
+    setFiltredTaskArray(newnewTA);
+    console.log("после сортировки по дате и по готовности" + newnewTA);
+  };
+  const sortByDate = (type) => {
+    setTypeFilterByDate(type);
+    //тут идет задержка типа сортировки
+    console.log(type);
+    //возможно тут не нужно вызывать фильтрацию
+    filterTask(type, typeFilterByStatus);
+  };
+
+  const sortByStatus = (type) => {
+    setTypeFilterByStatus(type);
+    //тут идет задержка типа сортировки
+    console.log(type);
+    //возможно тут не нужно вызывать фильтрацию
+    filterTask(typeFilterByDate, type);
   };
 
   return (
@@ -41,13 +110,14 @@ const Top = ({ taskArray, setTaskArray }) => {
       </div>
       <div className={styles.select}>
         <div className={styles.selectDate}>
-          <button>New</button>
-          <button>Old</button>
+          {/* тут нужо менять названия и способ использования функции */}
+          <button onClick={() => sortByDate("NEW")} className={(typeFilterByDate === "NEW")? styles.used:''}>New</button>
+          <button onClick={() => sortByDate("OLD")} className={(typeFilterByDate === "OLD")? styles.used:''}>Old</button>
         </div>
         <div className={styles.selectDone}>
-          <button>All</button>
-          <button>Undone</button>
-          <button>Done</button>
+          <button onClick={() => sortByStatus("ALL")} className={(typeFilterByStatus === "ALL")? styles.used:''}>All</button>
+          <button onClick={() => sortByStatus("UNDONE")} className={(typeFilterByStatus === "UNDONE")? styles.used:''}>Undone</button>
+          <button onClick={() => sortByStatus("DONE")} className={(typeFilterByStatus === "DONE")? styles.used:''}>Done</button>
         </div>
       </div>
     </div>

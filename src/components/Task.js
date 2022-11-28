@@ -40,7 +40,9 @@ const Task = ({ taskText, taskId, statusDone, taskArray, setTaskArray }) => {
     setChekced(!chekced);
     const newTaskArray = [...taskArray].map((item) => {
       if (item.id === taskId) {
-        item.statusDone = chekced;
+        //странное дело не хотело меняться
+        item.statusDone = !chekced;
+        console.log(item.statusDone)
       }
       return item;
     });

@@ -66,3 +66,7 @@ button:active {
     color: #08ff98;
     /*box-shadow: 0 5px 10px #eb1595, 0 0 2px 0 #eb1595 inset;*/
 }
+
+.used {
+    box-shadow: 0 0 40px 40px #852e62 inset, 0 0 0 0 #852e62;
+}

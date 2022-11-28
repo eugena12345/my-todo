@@ -2,9 +2,7 @@
 import Task from "./Task";
 import styles from "./Tasks.module.css";
 
-const Tasks = ({taskArray, setTaskArray}) => {
-  
-
+const Tasks = ({ taskArray, setTaskArray }) => {
   return (
     <div className={styles.p}>
       {taskArray.length
