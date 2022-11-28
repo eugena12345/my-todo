@@ -1,8 +1,13 @@
 import React from "react";
 import styles from "./Pagination.module.css";
 
-const Pagination = () => {
-    const pageNumbers = [1,2,3]
+const Pagination = ({pageCount}) => {
+    
+    const pageNumbers = [];
+    for (let i=1; i<=pageCount; i++) {
+        pageNumbers.push(i)
+    }
+
   return (<div className={styles.p}>
       {pageNumbers.map((el) => {
           return <div key={el}>

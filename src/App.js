@@ -1,4 +1,3 @@
-//import logo from './logo.svg';
 import "./App.css";
 import Top from "./components/Top";
 import Tasks from "./components/Tasks";
@@ -28,12 +27,12 @@ function App() {
     },
   ]);
   const [filtredTaskArray, setFiltredTaskArray] = useState(taskArray);
-  
+
   useEffect(() => {
     setFiltredTaskArray(taskArray);
   }, [taskArray]);
 
-  
+const pageCount = Math.ceil(filtredTaskArray.length/5);
 
   return (
     <div className="conainer">
@@ -42,18 +41,13 @@ function App() {
         setTaskArray={setTaskArray}
         setFiltredTaskArray={setFiltredTaskArray}
         filtredTaskArray={filtredTaskArray}
-        // filterTask={filterTask}
-        // typeFilterByDate={typeFilterByDate}
-        // setTypeFilterByDate={setTypeFilterByDate}
-        // typeFilterByStatus={typeFilterByStatus}
-        // setTypeFilterByStatus={setTypeFilterByStatus}
       />
       <Tasks
         taskArray={filtredTaskArray}
         setTaskArray={setTaskArray}
         setFiltredTaskArray={setFiltredTaskArray}
       />
-      <Pagination />
+      {pageCount > 1 ? <Pagination pageCount={pageCount} /> : ""}
     </div>
   );
 }
