@@ -2,11 +2,20 @@
 import Task from "./Task";
 import styles from "./Tasks.module.css";
 
-const Tasks = ({ taskArray, setTaskArray }) => {
+const Tasks = ({
+  taskArray,
+  filtredTaskArray,
+  setTaskArray,
+  filterTask,
+  typeFilterByDate,
+  setTypeFilterByDate,
+  typeFilterByStatus,
+  setTypeFilterByStatus,
+}) => {
   return (
     <div className={styles.p}>
-      {taskArray.length
-        ? taskArray.map((el) => {
+      {filtredTaskArray.length
+        ? filtredTaskArray.map((el) => {
             return (
               <div key={el.id}>
                 <Task
@@ -15,6 +24,11 @@ const Tasks = ({ taskArray, setTaskArray }) => {
                   taskArray={taskArray}
                   setTaskArray={setTaskArray}
                   statusDone={el.statusDone}
+                  filterTask={filterTask}
+                  typeFilterByDate={typeFilterByDate}
+                  setTypeFilterByDate={setTypeFilterByDate}
+                  typeFilterByStatus={typeFilterByStatus}
+                  setTypeFilterByStatus={setTypeFilterByStatus}
                 />
               </div>
             );

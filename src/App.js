@@ -28,12 +28,51 @@ function App() {
   ]);
   const [filtredTaskArray, setFiltredTaskArray] = useState(taskArray);
   const [currentPage, setCurrentPage] = useState(1);
+  const [typeFilterByDate, setTypeFilterByDate] = useState("OLD");
+  const [typeFilterByStatus, setTypeFilterByStatus] = useState("ALL");
 
   useEffect(() => {
     setFiltredTaskArray(taskArray);
   }, [taskArray]);
 
-const pageCount = Math.ceil(filtredTaskArray.length/5);
+  const filterTask = (typeFilterByDate, typeFilterByStatus) => {
+    console.log("сортирую... типы сотрировки");
+    console.log(typeFilterByDate, typeFilterByStatus);
+    let arrForFilterByStatus;
+    if (typeFilterByStatus === "DONE") {
+      arrForFilterByStatus = taskArray.filter(
+        (item) => item.statusDone === true
+      );
+    }
+    if (typeFilterByStatus === "UNDONE") {
+      arrForFilterByStatus = taskArray.filter(
+        (item) => item.statusDone === false
+      );
+    }
+    if (typeFilterByStatus === "ALL") {
+      //нужна копия массива а не ссылка
+      arrForFilterByStatus = taskArray.filter((item) => item);
+    }
+
+    let arrForFilterByDate;
+    if (typeFilterByDate === "OLD") {
+      arrForFilterByDate = arrForFilterByStatus.sort(
+        (a, b) => a.createDate - b.createDate
+      );
+    }
+    if (typeFilterByDate === "NEW") {
+      arrForFilterByDate = arrForFilterByStatus.sort(
+        (a, b) => b.createDate - a.createDate
+      );
+    }
+    setFiltredTaskArray(arrForFilterByDate);
+    //здесь еще добавить отрисовку только 5 элементов
+    // при ндобавлении новой задачи сортировка не работает
+  };
+
+  const pageCount = Math.ceil(filtredTaskArray.length / 5);
+  const lastNumber = currentPage * 5;
+  const firstNumber = lastNumber - 5;
 
   return (
     <div className="conainer">
@@ -42,13 +81,32 @@ const pageCount = Math.ceil(filtredTaskArray.length/5);
         setTaskArray={setTaskArray}
         setFiltredTaskArray={setFiltredTaskArray}
         filtredTaskArray={filtredTaskArray}
+        filterTask={filterTask}
+        typeFilterByDate={typeFilterByDate}
+        setTypeFilterByDate={setTypeFilterByDate}
+        typeFilterByStatus={typeFilterByStatus}
+        setTypeFilterByStatus={setTypeFilterByStatus}
       />
       <Tasks
-        taskArray={filtredTaskArray}
+        taskArray={taskArray}
+        filtredTaskArray={filtredTaskArray}
         setTaskArray={setTaskArray}
-        setFiltredTaskArray={setFiltredTaskArray}
+        filterTask={filterTask}
+        typeFilterByDate={typeFilterByDate}
+        setTypeFilterByDate={setTypeFilterByDate}
+        typeFilterByStatus={typeFilterByStatus}
+        setTypeFilterByStatus={setTypeFilterByStatus}
+        //setFiltredTaskArray={setFiltredTaskArray}
       />
-      {pageCount > 1 ? <Pagination pageCount={pageCount} currentPage={currentPage} setCurrentPage={setCurrentPage} /> : ""}
+      {pageCount > 1 ? (
+        <Pagination
+          pageCount={pageCount}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 }

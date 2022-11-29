@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Task.module.css";
 
-const Task = ({ taskText, taskId, statusDone, taskArray, setTaskArray }) => {
+const Task = ({ taskText, taskId, statusDone, taskArray, setTaskArray, filterTask, typeFilterByDate, setTypeFilterByDate, typeFilterByStatus, setTypeFilterByStatus }) => {
   //также смущает что в пропсах и весь массив задач и отдельная задача передается, но это уйдет, когда будет отправляться на сервер задача
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState("");
@@ -10,6 +10,8 @@ const Task = ({ taskText, taskId, statusDone, taskArray, setTaskArray }) => {
   const deleteTask = (taskId) => {
     const newtaskArray = taskArray.filter((item) => item.id !== taskId);
     setTaskArray(newtaskArray);
+    //передать нажатые кнопки в функцию фильтр таск
+    filterTask(typeFilterByDate, typeFilterByStatus);
   };
   const editeTask = (taskId, taskText) => {
     //предупреждение в консоли о неконтролруемом инпуте
@@ -44,9 +46,14 @@ const Task = ({ taskText, taskId, statusDone, taskArray, setTaskArray }) => {
         item.statusDone = !chekced;
         console.log(item.statusDone)
       }
+      
       return item;
+      
     });
+    console.log(newTaskArray)
     setTaskArray(newTaskArray);
+    //передать нажатые кнопки в функцию фильтр таск
+    filterTask(typeFilterByDate, typeFilterByStatus);
   };
 
   return (

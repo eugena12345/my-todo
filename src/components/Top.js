@@ -5,12 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 const Top = ({
   taskArray,
   setTaskArray,
+  filterTask,
+  typeFilterByDate, setTypeFilterByDate, typeFilterByStatus, setTypeFilterByStatus,
   //filtredTaskArray,
   setFiltredTaskArray,
 }) => {
   const [value, setValue] = useState("");
-  const [typeFilterByDate, setTypeFilterByDate] = useState("OLD");
-  const [typeFilterByStatus, setTypeFilterByStatus] = useState("ALL");
+  
 
 
   //не перерисовывается после того как понажимаешь кнопки сделано не сделано, потом все и сортировка по дате не перерисовывается. 
@@ -31,6 +32,7 @@ const Top = ({
     ];
     setTaskArray(newTaskArray);
     setValue("");
+    filterTask(typeFilterByDate, typeFilterByStatus);
   };
 
   const addTaskWithEnter = (event) => {
@@ -38,49 +40,7 @@ const Top = ({
       addTask();
     }
   };
-  const filterTask = (typeFilterByDate, typeFilterByStatus) => {
-    console.log(
-      "в сортировке " +
-        typeFilterByDate +
-        " and " +
-        typeFilterByStatus +
-        "пошла сортировка по дате"
-    );
-    let newFiltredTaskArray;
-    if (typeFilterByDate === "OLD") {
-      newFiltredTaskArray = taskArray.sort(
-        (a, b) => a.createDate - b.createDate
-      );
-    }
-    if (typeFilterByDate === "NEW") {
-      newFiltredTaskArray = taskArray.sort(
-        (a, b) => b.createDate - a.createDate
-      );
-    }
-    // setFiltredTaskArray(newFiltredTaskArray);
-    console.log("после сортировки по дате: ");
-    console.log(newFiltredTaskArray);
-    let newnewTA;
-    if (typeFilterByStatus === "DONE") {
-      console.log("пошла сортировка по готовности");
-
-      newnewTA = newFiltredTaskArray.filter((item) => item.statusDone === true);
-      console.log("сейчас должен быть массив после сортировки DONE");
-      console.log(newnewTA);
-    }
-    if (typeFilterByStatus === "UNDONE") {
-      newnewTA = newFiltredTaskArray.filter(
-        (item) => item.statusDone === false
-      );
-    }
-    if (typeFilterByStatus === "ALL") {
-
-      newnewTA = newFiltredTaskArray;
-      console.log(newnewTA);
-    }
-    setFiltredTaskArray(newnewTA);
-    console.log("после сортировки по дате и по готовности" + newnewTA);
-  };
+  
   const sortByDate = (type) => {
     setTypeFilterByDate(type);
     //тут идет задержка типа сортировки
