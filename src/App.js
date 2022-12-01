@@ -32,8 +32,6 @@ function App() {
   const [typeFilterByStatus, setTypeFilterByStatus] = useState("ALL");
 
   const filterTask = (typeFilterByDate, typeFilterByStatus) => {
-    console.log("сортирую... типы сотрировки");
-    console.log(typeFilterByDate, typeFilterByStatus);
     let arrForFilterByStatus;
     if (typeFilterByStatus === "DONE") {
       arrForFilterByStatus = taskArray.filter(
@@ -64,7 +62,9 @@ function App() {
     setFiltredTaskArray(arrForFilterByDate);
   };
 
-  const pageCount = Math.ceil(filtredTaskArray.length / 5);
+  let pageCount = Math.ceil(filtredTaskArray.length / 5) || 1;
+  // если удалить все задачи, то все ломается
+
   if (pageCount < currentPage) {
     setCurrentPage(1);
   }
