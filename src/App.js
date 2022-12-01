@@ -27,7 +27,6 @@ function App() {
     },
   ]);
   const [filtredTaskArray, setFiltredTaskArray] = useState(taskArray);
-   //const [arrForPrint, setArrForPrint] = useState(filtredTaskArray);
   const [currentPage, setCurrentPage] = useState(1);
   const [typeFilterByDate, setTypeFilterByDate] = useState("OLD");
   const [typeFilterByStatus, setTypeFilterByStatus] = useState("ALL");
@@ -63,20 +62,16 @@ function App() {
       );
     }
     setFiltredTaskArray(arrForFilterByDate);
-    //здесь еще добавить отрисовку только 5 элементов
-    // при ндобавлении новой задачи сортировка не работает
-    
-
-    
   };
-// отдельная функция для пагинации что именно брать
+
   const pageCount = Math.ceil(filtredTaskArray.length / 5);
+  if (pageCount < currentPage) {
+    setCurrentPage(1);
+  }
   const lastNumber = currentPage * 5;
   const firstNumber = lastNumber - 5;
 
   const forPrint = filtredTaskArray.slice(firstNumber, lastNumber);
-    console.log(forPrint);
-    //setArrForPrint(forPrint);
 
   useEffect(() => {
     setFiltredTaskArray(taskArray);
@@ -89,7 +84,6 @@ function App() {
         taskArray={taskArray}
         setTaskArray={setTaskArray}
         setFiltredTaskArray={setFiltredTaskArray}
-        //тут передан кусочек отфильтрованного массива
         filtredTaskArray={filtredTaskArray}
         filterTask={filterTask}
         typeFilterByDate={typeFilterByDate}
@@ -107,7 +101,6 @@ function App() {
         setTypeFilterByDate={setTypeFilterByDate}
         typeFilterByStatus={typeFilterByStatus}
         setTypeFilterByStatus={setTypeFilterByStatus}
-        //setFiltredTaskArray={setFiltredTaskArray}
       />
       {pageCount > 1 ? (
         <Pagination
