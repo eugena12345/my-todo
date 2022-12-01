@@ -27,13 +27,10 @@ function App() {
     },
   ]);
   const [filtredTaskArray, setFiltredTaskArray] = useState(taskArray);
+   //const [arrForPrint, setArrForPrint] = useState(filtredTaskArray);
   const [currentPage, setCurrentPage] = useState(1);
   const [typeFilterByDate, setTypeFilterByDate] = useState("OLD");
   const [typeFilterByStatus, setTypeFilterByStatus] = useState("ALL");
-
-  useEffect(() => {
-    setFiltredTaskArray(taskArray);
-  }, [taskArray]);
 
   const filterTask = (typeFilterByDate, typeFilterByStatus) => {
     console.log("сортирую... типы сотрировки");
@@ -68,11 +65,23 @@ function App() {
     setFiltredTaskArray(arrForFilterByDate);
     //здесь еще добавить отрисовку только 5 элементов
     // при ндобавлении новой задачи сортировка не работает
-  };
+    
 
+    
+  };
+// отдельная функция для пагинации что именно брать
   const pageCount = Math.ceil(filtredTaskArray.length / 5);
   const lastNumber = currentPage * 5;
   const firstNumber = lastNumber - 5;
+
+  const forPrint = filtredTaskArray.slice(firstNumber, lastNumber);
+    console.log(forPrint);
+    //setArrForPrint(forPrint);
+
+  useEffect(() => {
+    setFiltredTaskArray(taskArray);
+    filterTask(typeFilterByDate, typeFilterByStatus);
+  }, [taskArray]);
 
   return (
     <div className="conainer">
@@ -80,6 +89,7 @@ function App() {
         taskArray={taskArray}
         setTaskArray={setTaskArray}
         setFiltredTaskArray={setFiltredTaskArray}
+        //тут передан кусочек отфильтрованного массива
         filtredTaskArray={filtredTaskArray}
         filterTask={filterTask}
         typeFilterByDate={typeFilterByDate}
@@ -89,7 +99,8 @@ function App() {
       />
       <Tasks
         taskArray={taskArray}
-        filtredTaskArray={filtredTaskArray}
+        //задачи после пагинации было filtredTaskArray
+        filtredTaskArray={forPrint}
         setTaskArray={setTaskArray}
         filterTask={filterTask}
         typeFilterByDate={typeFilterByDate}
