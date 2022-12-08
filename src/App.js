@@ -1,8 +1,8 @@
 import "./App.css";
-import Top from "./components/Top";
+import TopBar from "./components/TopBar";
 import Tasks from "./components/Tasks";
 import Pagination from "./components/Pagination";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function App() {
   const [taskArray, setTaskArray] = useState([
@@ -27,34 +27,19 @@ function App() {
     },
   ]);
   const handleTasksArrayChange = (value) => {
-    setTaskArray(value)
-  }
-  // const [filtredTaskArray, setFiltredTaskArray] = useState(taskArray);
+    setTaskArray(value);
+  };
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [typeFilterByDate, setTypeFilterByDate] = useState("OLD"); // rename
+  const [typeSortByDate, setTypeSortByDate] = useState("OLD");
+  const handleTypeSortByDateChange = (value) => {
+    setTypeSortByDate(value);
+  };
+
   const [typeFilterByStatus, setTypeFilterByStatus] = useState("ALL");
-
-  ////////////////////////////////////////////////////////////////////////////
-  // const filterTasksByStatus = (arr) => {
-  //   return arr.filter(
-  //     (item) =>
-  //       item.statusDone === (typeFilterByStatus === "DONE") ||
-  //       typeFilterByStatus === "ALL"
-  //   );
-  // };
-
-  // const sortTasksByDate = (arr) => {
-  //   return [...arr].sort((a, b) =>
-  //     typeFilterByDate === "OLD"
-  //       ? a.createDate - b.createDate
-  //       : b.createDate - a.createDate
-  //   );
-  // };
-
-  // const filteredTasksBStatus = filterTasksByStatus(taskArray)
-  // const sortedTasksByDate = sortTasksByDate(filteredTasksBStatus)
-  //////////////////////////////////////////////////////////////////////////////
-
+  const handleTypeFilterByStatusChange = (value) => {
+    setTypeFilterByStatus(value);
+  };
 
   const filteredTasksBStatus = (() => {
     return taskArray.filter(
@@ -66,93 +51,41 @@ function App() {
 
   const sortedTasksByDate = (() => {
     return [...filteredTasksBStatus].sort((a, b) =>
-      typeFilterByDate === "OLD"
+      typeSortByDate === "OLD"
         ? a.createDate - b.createDate
         : b.createDate - a.createDate
     );
   })();
 
-
-  const paginatedTasks = (() => {
-
-  })()
-
-  // const filterTask = (typeFilterByDate, typeFilterByStatus) => {
-  //   let arrForFilterByStatus;
-  //   if (typeFilterByStatus === "DONE") {
-  //     arrForFilterByStatus = taskArray.filter(
-  //       (item) => item.statusDone === true
-  //     );
-  //   }
-  //   if (typeFilterByStatus === "UNDONE") {
-  //     arrForFilterByStatus = taskArray.filter(
-  //       (item) => item.statusDone === false
-  //     );
-  //   }
-  //   if (typeFilterByStatus === "ALL") {
-  //     //нужна копия массива а не ссылка
-  //     arrForFilterByStatus = taskArray.filter((item) => item);
-  //   }
-
-  //   let arrForFilterByDate;
-  //   if (typeFilterByDate === "OLD") {
-  //     arrForFilterByDate = arrForFilterByStatus.sort(
-  //       (a, b) => a.createDate - b.createDate
-  //     );
-  //   }
-  //   if (typeFilterByDate === "NEW") {
-  //     arrForFilterByDate = arrForFilterByStatus.sort(
-  //       (a, b) => b.createDate - a.createDate
-  //     );
-  //   }
-  //   setFiltredTaskArray(arrForFilterByDate);
-  // };
+  const paginatedTasks = (() => {})();
 
   let pageCount = Math.ceil(sortedTasksByDate.length / 5);
-  // если удалить все задачи, то все ломается
 
-  // if (pageCount < currentPage) {
-  //   setCurrentPage(1); ////// yyyyyyyyyyyyyyyyyyyyyy
-  // }
   const lastNumber = currentPage * 5;
   const firstNumber = lastNumber - 5;
-
   const forPrint = sortedTasksByDate.slice(firstNumber, lastNumber);
-
-  // useEffect(() => {
-  //   setFiltredTaskArray(taskArray);
-  //   filterTask(typeFilterByDate, typeFilterByStatus);
-  // }, [taskArray]);
 
   return (
     <div className="conainer">
-      <Top
+      <TopBar
         taskArray={taskArray}
-        setTaskArray={handleTasksArrayChange}
-        // setFiltredTaskArray={setFiltredTaskArray}
-        filtredTaskArray={sortedTasksByDate}
-        // filterTask={filterTask}
-        typeFilterByDate={typeFilterByDate}
-        setTypeFilterByDate={setTypeFilterByDate}
+        handleTasksArrayChange={handleTasksArrayChange}
+        typeSortByDate={typeSortByDate}
+        handleTypeSortByDateChange={handleTypeSortByDateChange}
         typeFilterByStatus={typeFilterByStatus}
-        setTypeFilterByStatus={setTypeFilterByStatus}
+        handleTypeFilterByStatusChange={handleTypeFilterByStatusChange}
       />
       <Tasks
         taskArray={taskArray}
-        //задачи после пагинации было filtredTaskArray
         filtredTaskArray={forPrint}
-        setTaskArray={setTaskArray}
-        // filterTask={filterTask}
-        typeFilterByDate={typeFilterByDate}
-        setTypeFilterByDate={setTypeFilterByDate}
-        typeFilterByStatus={typeFilterByStatus}
-        setTypeFilterByStatus={setTypeFilterByStatus}
+        handleTasksArrayChange={handleTasksArrayChange}
       />
       {pageCount > 1 ? (
         <Pagination
           pageCount={pageCount}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          paginatedTasks={paginatedTasks}
         />
       ) : null}
     </div>

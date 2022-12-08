@@ -1,17 +1,7 @@
-//import React, { useState } from "react";
 import Task from "./Task";
 import styles from "./Tasks.module.css";
 
-const Tasks = ({
-  taskArray,
-  filtredTaskArray,
-  setTaskArray,
-  // filterTask,
-  typeFilterByDate,
-  setTypeFilterByDate,
-  typeFilterByStatus,
-  setTypeFilterByStatus,
-}) => {
+const Tasks = ({ taskArray, filtredTaskArray, handleTasksArrayChange }) => {
   return (
     <div className={styles.p}>
       {filtredTaskArray.length
@@ -22,13 +12,8 @@ const Tasks = ({
                   taskText={el.taskText}
                   taskId={el.id}
                   taskArray={taskArray}
-                  setTaskArray={setTaskArray}
+                  handleTasksArrayChange={handleTasksArrayChange}
                   statusDone={el.statusDone}
-                  // filterTask={filterTask}
-                  typeFilterByDate={typeFilterByDate}
-                  setTypeFilterByDate={setTypeFilterByDate}
-                  typeFilterByStatus={typeFilterByStatus}
-                  setTypeFilterByStatus={setTypeFilterByStatus}
                 />
               </div>
             );

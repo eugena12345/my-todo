@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Pagination.module.css";
 
-const Pagination = ({pageCount, currentPage, setCurrentPage}) => {
+const Pagination = ({pageCount, currentPage, setCurrentPage, paginatedTasks}) => {
     const handlePageChange  = (el) => {
         setCurrentPage(el)
     }

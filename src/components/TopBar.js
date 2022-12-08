@@ -2,19 +2,17 @@ import React, { useState } from "react";
 import styles from "./Top.module.css";
 import { v4 as uuidv4 } from "uuid";
 
-const Top = ({
+const TopBar = ({
   taskArray,
-  setTaskArray,
-  // filterTask,
-  typeFilterByDate, setTypeFilterByDate, typeFilterByStatus, setTypeFilterByStatus,
-  //filtredTaskArray,
-  // setFiltredTaskArray,
+  handleTasksArrayChange,
+  typeSortByDate,
+  handleTypeSortByDateChange,
+  typeFilterByStatus,
+  handleTypeFilterByStatusChange,
 }) => {
   const [value, setValue] = useState("");
-  
 
-
-  //не перерисовывается после того как понажимаешь кнопки сделано не сделано, потом все и сортировка по дате не перерисовывается. 
+  //не перерисовывается после того как понажимаешь кнопки сделано не сделано, потом все и сортировка по дате не перерисовывается.
   //если какая-то задача помечена как выполненная при нажатой кнопке невыполнена, то она не перескакивает в выполненную
   // при добавлении задачи перерисовываятся неотсортированный список задач
   const addTask = () => {
@@ -30,31 +28,30 @@ const Top = ({
         createDate: Date.now(),
       },
     ];
-    setTaskArray(newTaskArray);
+    handleTasksArrayChange(newTaskArray);
     setValue("");
-    // filterTask(typeFilterByDate, typeFilterByStatus);
-  };
+      };
 
   const addTaskWithEnter = (event) => {
     if (event.keyCode === 13) {
       addTask();
     }
   };
-  
+
   const sortByDate = (type) => {
-    setTypeFilterByDate(type);
+    handleTypeSortByDateChange(type);
     //тут идет задержка типа сортировки
     console.log(type);
     //возможно тут не нужно вызывать фильтрацию
-    // filterTask(type, typeFilterByStatus);
+    
   };
 
   const sortByStatus = (type) => {
-    setTypeFilterByStatus(type);
+    handleTypeFilterByStatusChange(type);
     //тут идет задержка типа сортировки
     console.log(type);
     //возможно тут не нужно вызывать фильтрацию
-    // filterTask(typeFilterByDate, type);
+    
   };
 
   return (
@@ -72,17 +69,42 @@ const Top = ({
       <div className={styles.select}>
         <div className={styles.selectDate}>
           {/* тут нужо менять названия и способ использования функции */}
-          <button onClick={() => sortByDate("NEW")} className={(typeFilterByDate === "NEW")? styles.used:''}>New</button>
-          <button onClick={() => sortByDate("OLD")} className={(typeFilterByDate === "OLD")? styles.used:''}>Old</button>
+          <button
+            onClick={() => sortByDate("NEW")}
+            className={typeSortByDate === "NEW" ? styles.used : ""}
+          >
+            New
+          </button>
+          <button
+            onClick={() => sortByDate("OLD")}
+            className={typeSortByDate === "OLD" ? styles.used : ""}
+          >
+            Old
+          </button>
         </div>
         <div className={styles.selectDone}>
-          <button onClick={() => sortByStatus("ALL")} className={(typeFilterByStatus === "ALL")? styles.used:''}>All</button>
-          <button onClick={() => sortByStatus("UNDONE")} className={(typeFilterByStatus === "UNDONE")? styles.used:''}>Undone</button>
-          <button onClick={() => sortByStatus("DONE")} className={(typeFilterByStatus === "DONE")? styles.used:''}>Done</button>
+          <button
+            onClick={() => sortByStatus("ALL")}
+            className={typeFilterByStatus === "ALL" ? styles.used : ""}
+          >
+            All
+          </button>
+          <button
+            onClick={() => sortByStatus("UNDONE")}
+            className={typeFilterByStatus === "UNDONE" ? styles.used : ""}
+          >
+            Undone
+          </button>
+          <button
+            onClick={() => sortByStatus("DONE")}
+            className={typeFilterByStatus === "DONE" ? styles.used : ""}
+          >
+            Done
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default Top;
+export default TopBar;
