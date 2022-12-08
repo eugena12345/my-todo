@@ -6,7 +6,7 @@ const Tasks = ({
   taskArray,
   filtredTaskArray,
   setTaskArray,
-  filterTask,
+  // filterTask,
   typeFilterByDate,
   setTypeFilterByDate,
   typeFilterByStatus,
@@ -24,7 +24,7 @@ const Tasks = ({
                   taskArray={taskArray}
                   setTaskArray={setTaskArray}
                   statusDone={el.statusDone}
-                  filterTask={filterTask}
+                  // filterTask={filterTask}
                   typeFilterByDate={typeFilterByDate}
                   setTypeFilterByDate={setTypeFilterByDate}
                   typeFilterByStatus={typeFilterByStatus}

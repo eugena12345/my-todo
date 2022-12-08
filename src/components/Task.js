@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import styles from "./Task.module.css";
 
-const Task = ({ taskText, taskId, statusDone, taskArray, setTaskArray, filterTask, typeFilterByDate, setTypeFilterByDate, typeFilterByStatus, setTypeFilterByStatus }) => {
+const Task = ({ taskText, taskId, statusDone, taskArray, setTaskArray }) => {
   //также смущает что в пропсах и весь массив задач и отдельная задача передается, но это уйдет, когда будет отправляться на сервер задача
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState("");
-  const [chekced, setChekced] = useState(statusDone);
+  const [chekced, setChekced] = useState(statusDone); //////  checked
 
   const deleteTask = (taskId) => {
     const newtaskArray = taskArray.filter((item) => item.id !== taskId);
     setTaskArray(newtaskArray);
     //передать нажатые кнопки в функцию фильтр таск
-    filterTask(typeFilterByDate, typeFilterByStatus);
+    // filterTask(typeFilterByDate, typeFilterByStatus);
   };
   const editeTask = (taskId, taskText) => {
+    // edit
     //предупреждение в консоли о неконтролруемом инпуте
     setEdit(true);
     setValue(taskText);
@@ -40,20 +41,16 @@ const Task = ({ taskText, taskId, statusDone, taskArray, setTaskArray, filterTas
 
   const changeStatus = (taskId) => {
     setChekced(!chekced);
-    const newTaskArray = [...taskArray].map((item) => {
+    const newTaskArray = taskArray.map((item) => {
       if (item.id === taskId) {
-        //странное дело не хотело меняться
-        item.statusDone = !chekced;
-        console.log(item.statusDone)
+        return { ...item, statusDone: !chekced };
       }
-      
       return item;
-      
     });
-    console.log(newTaskArray)
+    // console.log(newTaskArray)
     setTaskArray(newTaskArray);
     //передать нажатые кнопки в функцию фильтр таск
-    filterTask(typeFilterByDate, typeFilterByStatus);
+    // filterTask(typeFilterByDate, typeFilterByStatus);
   };
 
   return (
@@ -78,7 +75,12 @@ const Task = ({ taskText, taskId, statusDone, taskArray, setTaskArray, filterTas
             checked={chekced}
             onChange={() => changeStatus(taskId)}
           />
-          <div className={styles.taskText} onDoubleClick={()=>editeTask(taskId, taskText)}>{taskText}</div>
+          <div
+            className={styles.taskText}
+            onDoubleClick={() => editeTask(taskId, taskText)}
+          >
+            {taskText}
+          </div>
           <div className={styles.taskButton}>
             <div>Date</div>
             <button onClick={() => editeTask(taskId, taskText)}>Edit</button>

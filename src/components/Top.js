@@ -5,10 +5,10 @@ import { v4 as uuidv4 } from "uuid";
 const Top = ({
   taskArray,
   setTaskArray,
-  filterTask,
+  // filterTask,
   typeFilterByDate, setTypeFilterByDate, typeFilterByStatus, setTypeFilterByStatus,
   //filtredTaskArray,
-  setFiltredTaskArray,
+  // setFiltredTaskArray,
 }) => {
   const [value, setValue] = useState("");
   
@@ -32,7 +32,7 @@ const Top = ({
     ];
     setTaskArray(newTaskArray);
     setValue("");
-    filterTask(typeFilterByDate, typeFilterByStatus);
+    // filterTask(typeFilterByDate, typeFilterByStatus);
   };
 
   const addTaskWithEnter = (event) => {
@@ -46,7 +46,7 @@ const Top = ({
     //тут идет задержка типа сортировки
     console.log(type);
     //возможно тут не нужно вызывать фильтрацию
-    filterTask(type, typeFilterByStatus);
+    // filterTask(type, typeFilterByStatus);
   };
 
   const sortByStatus = (type) => {
@@ -54,7 +54,7 @@ const Top = ({
     //тут идет задержка типа сортировки
     console.log(type);
     //возможно тут не нужно вызывать фильтрацию
-    filterTask(typeFilterByDate, type);
+    // filterTask(typeFilterByDate, type);
   };
 
   return (

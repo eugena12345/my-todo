@@ -26,66 +26,112 @@ function App() {
       createDate: 15,
     },
   ]);
-  const [filtredTaskArray, setFiltredTaskArray] = useState(taskArray);
+  const handleTasksArrayChange = (value) => {
+    setTaskArray(value)
+  }
+  // const [filtredTaskArray, setFiltredTaskArray] = useState(taskArray);
   const [currentPage, setCurrentPage] = useState(1);
-  const [typeFilterByDate, setTypeFilterByDate] = useState("OLD");
+  const [typeFilterByDate, setTypeFilterByDate] = useState("OLD"); // rename
   const [typeFilterByStatus, setTypeFilterByStatus] = useState("ALL");
 
-  const filterTask = (typeFilterByDate, typeFilterByStatus) => {
-    let arrForFilterByStatus;
-    if (typeFilterByStatus === "DONE") {
-      arrForFilterByStatus = taskArray.filter(
-        (item) => item.statusDone === true
-      );
-    }
-    if (typeFilterByStatus === "UNDONE") {
-      arrForFilterByStatus = taskArray.filter(
-        (item) => item.statusDone === false
-      );
-    }
-    if (typeFilterByStatus === "ALL") {
-      //нужна копия массива а не ссылка
-      arrForFilterByStatus = taskArray.filter((item) => item);
-    }
+  ////////////////////////////////////////////////////////////////////////////
+  // const filterTasksByStatus = (arr) => {
+  //   return arr.filter(
+  //     (item) =>
+  //       item.statusDone === (typeFilterByStatus === "DONE") ||
+  //       typeFilterByStatus === "ALL"
+  //   );
+  // };
 
-    let arrForFilterByDate;
-    if (typeFilterByDate === "OLD") {
-      arrForFilterByDate = arrForFilterByStatus.sort(
-        (a, b) => a.createDate - b.createDate
-      );
-    }
-    if (typeFilterByDate === "NEW") {
-      arrForFilterByDate = arrForFilterByStatus.sort(
-        (a, b) => b.createDate - a.createDate
-      );
-    }
-    setFiltredTaskArray(arrForFilterByDate);
-  };
+  // const sortTasksByDate = (arr) => {
+  //   return [...arr].sort((a, b) =>
+  //     typeFilterByDate === "OLD"
+  //       ? a.createDate - b.createDate
+  //       : b.createDate - a.createDate
+  //   );
+  // };
 
-  let pageCount = Math.ceil(filtredTaskArray.length / 5) || 1;
+  // const filteredTasksBStatus = filterTasksByStatus(taskArray)
+  // const sortedTasksByDate = sortTasksByDate(filteredTasksBStatus)
+  //////////////////////////////////////////////////////////////////////////////
+
+
+  const filteredTasksBStatus = (() => {
+    return taskArray.filter(
+      (item) =>
+        item.statusDone === (typeFilterByStatus === "DONE") ||
+        typeFilterByStatus === "ALL"
+    );
+  })();
+
+  const sortedTasksByDate = (() => {
+    return [...filteredTasksBStatus].sort((a, b) =>
+      typeFilterByDate === "OLD"
+        ? a.createDate - b.createDate
+        : b.createDate - a.createDate
+    );
+  })();
+
+
+  const paginatedTasks = (() => {
+
+  })()
+
+  // const filterTask = (typeFilterByDate, typeFilterByStatus) => {
+  //   let arrForFilterByStatus;
+  //   if (typeFilterByStatus === "DONE") {
+  //     arrForFilterByStatus = taskArray.filter(
+  //       (item) => item.statusDone === true
+  //     );
+  //   }
+  //   if (typeFilterByStatus === "UNDONE") {
+  //     arrForFilterByStatus = taskArray.filter(
+  //       (item) => item.statusDone === false
+  //     );
+  //   }
+  //   if (typeFilterByStatus === "ALL") {
+  //     //нужна копия массива а не ссылка
+  //     arrForFilterByStatus = taskArray.filter((item) => item);
+  //   }
+
+  //   let arrForFilterByDate;
+  //   if (typeFilterByDate === "OLD") {
+  //     arrForFilterByDate = arrForFilterByStatus.sort(
+  //       (a, b) => a.createDate - b.createDate
+  //     );
+  //   }
+  //   if (typeFilterByDate === "NEW") {
+  //     arrForFilterByDate = arrForFilterByStatus.sort(
+  //       (a, b) => b.createDate - a.createDate
+  //     );
+  //   }
+  //   setFiltredTaskArray(arrForFilterByDate);
+  // };
+
+  let pageCount = Math.ceil(sortedTasksByDate.length / 5);
   // если удалить все задачи, то все ломается
 
-  if (pageCount < currentPage) {
-    setCurrentPage(1);
-  }
+  // if (pageCount < currentPage) {
+  //   setCurrentPage(1); ////// yyyyyyyyyyyyyyyyyyyyyy
+  // }
   const lastNumber = currentPage * 5;
   const firstNumber = lastNumber - 5;
 
-  const forPrint = filtredTaskArray.slice(firstNumber, lastNumber);
+  const forPrint = sortedTasksByDate.slice(firstNumber, lastNumber);
 
-  useEffect(() => {
-    setFiltredTaskArray(taskArray);
-    filterTask(typeFilterByDate, typeFilterByStatus);
-  }, [taskArray]);
+  // useEffect(() => {
+  //   setFiltredTaskArray(taskArray);
+  //   filterTask(typeFilterByDate, typeFilterByStatus);
+  // }, [taskArray]);
 
   return (
     <div className="conainer">
       <Top
         taskArray={taskArray}
-        setTaskArray={setTaskArray}
-        setFiltredTaskArray={setFiltredTaskArray}
-        filtredTaskArray={filtredTaskArray}
-        filterTask={filterTask}
+        setTaskArray={handleTasksArrayChange}
+        // setFiltredTaskArray={setFiltredTaskArray}
+        filtredTaskArray={sortedTasksByDate}
+        // filterTask={filterTask}
         typeFilterByDate={typeFilterByDate}
         setTypeFilterByDate={setTypeFilterByDate}
         typeFilterByStatus={typeFilterByStatus}
@@ -96,7 +142,7 @@ function App() {
         //задачи после пагинации было filtredTaskArray
         filtredTaskArray={forPrint}
         setTaskArray={setTaskArray}
-        filterTask={filterTask}
+        // filterTask={filterTask}
         typeFilterByDate={typeFilterByDate}
         setTypeFilterByDate={setTypeFilterByDate}
         typeFilterByStatus={typeFilterByStatus}
@@ -108,9 +154,7 @@ function App() {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
-      ) : (
-        ""
-      )}
+      ) : null}
     </div>
   );
 }
