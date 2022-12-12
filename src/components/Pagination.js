@@ -5,6 +5,8 @@ const Pagination = ({pageCount, currentPage, handleCurrentPageChange, paginatedT
     // const handlePageChange  = (el) => {
     //     setCurrentPage(el)
     // }
+
+    
     const pageNumbers = [];
     for (let i=1; i<=pageCount; i++) {
         pageNumbers.push(i)

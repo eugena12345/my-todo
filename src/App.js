@@ -31,9 +31,9 @@ function App() {
   };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const handleCurrentPageChange = (value) => {
+  const handleCurrentPageChange = (value)=>{
     setCurrentPage(value);
-  };
+  }
   const [typeSortByDate, setTypeSortByDate] = useState("OLD");
   const handleTypeSortByDateChange = (value) => {
     setTypeSortByDate(value);
@@ -70,7 +70,7 @@ function App() {
     const firstNumber = lastNumber - 5;
     return sortedTasksByDate.slice(firstNumber, lastNumber);
   })();
-
+  
   return (
     <div className="conainer">
       <TopBar
@@ -83,7 +83,7 @@ function App() {
       />
       <Tasks
         taskArray={taskArray}
-        paginatedTasks={paginatedTasks}
+                paginatedTasks={paginatedTasks}
         handleTasksArrayChange={handleTasksArrayChange}
       />
       {pageCount > 1 ? (
@@ -91,6 +91,7 @@ function App() {
           pageCount={pageCount}
           currentPage={currentPage}
           handleCurrentPageChange={handleCurrentPageChange}
+         
         />
       ) : null}
     </div>
