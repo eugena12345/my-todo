@@ -13,7 +13,7 @@ const Pagination = ({pageCount, currentPage, setCurrentPage, paginatedTasks}) =>
   return (<div className={styles.p}>
       {pageNumbers.map((el) => {
           return <div key={el}>
-          <button className={currentPage===el? styles.used:''} onClick={()=>handlePageChange(el)}>{el}</button></div>
+          <button className={currentPage===el? styles.current:''} onClick={()=>handlePageChange(el)}>{el}</button></div>
       })}
   </div>);
 };

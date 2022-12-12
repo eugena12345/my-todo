@@ -71,13 +71,13 @@ const TopBar = ({
           {/* тут нужо менять названия и способ использования функции */}
           <button
             onClick={() => sortByDate("NEW")}
-            className={typeSortByDate === "NEW" ? styles.used : ""}
+            className={typeSortByDate === "NEW" ? styles.current : ""}
           >
             New
           </button>
           <button
             onClick={() => sortByDate("OLD")}
-            className={typeSortByDate === "OLD" ? styles.used : ""}
+            className={typeSortByDate === "OLD" ? styles.current : ""}
           >
             Old
           </button>
@@ -85,19 +85,19 @@ const TopBar = ({
         <div className={styles.selectDone}>
           <button
             onClick={() => sortByStatus("ALL")}
-            className={typeFilterByStatus === "ALL" ? styles.used : ""}
+            className={typeFilterByStatus === "ALL" ? styles.current : ""}
           >
             All
           </button>
           <button
             onClick={() => sortByStatus("UNDONE")}
-            className={typeFilterByStatus === "UNDONE" ? styles.used : ""}
+            className={typeFilterByStatus === "UNDONE" ? styles.current : ""}
           >
             Undone
           </button>
           <button
             onClick={() => sortByStatus("DONE")}
-            className={typeFilterByStatus === "DONE" ? styles.used : ""}
+            className={typeFilterByStatus === "DONE" ? styles.current : ""}
           >
             Done
           </button>
