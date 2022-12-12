@@ -39,8 +39,8 @@ const Task = ({
       setEdit(false);
     }
   };
-
-  const changeStatus = (taskId) => {
+  ////////////////////////убрать 1 из названия, ниже эксперимент
+  const changeStatus1 = (taskId) => {
     setChecked(!checked);
     const newTaskArray = taskArray.map((item) => {
       if (item.id === taskId) {
@@ -50,6 +50,20 @@ const Task = ({
     });
     handleTasksArrayChange(newTaskArray);
   };
+  /////////////////////////////////////// пример
+  const changeStatus = (taskId) => {
+    setChecked(!checked);
+    const newTaskArray = taskArray.map((item) => {
+      return {
+        ...item,
+        statusDone: item.id === taskId ? !checked : item.statusDone,
+      };
+    });
+
+    handleTasksArrayChange(newTaskArray);
+  };
+
+  //////////////////////////////////////////////
 
   return (
     <div>
