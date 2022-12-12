@@ -31,6 +31,9 @@ function App() {
   };
 
   const [currentPage, setCurrentPage] = useState(1);
+  const handleCurrentPageChange = (value) => {
+    setCurrentPage(value);
+  };
   const [typeSortByDate, setTypeSortByDate] = useState("OLD");
   const handleTypeSortByDateChange = (value) => {
     setTypeSortByDate(value);
@@ -57,13 +60,16 @@ function App() {
     );
   })();
 
-  const paginatedTasks = (() => {})();
-
   let pageCount = Math.ceil(sortedTasksByDate.length / 5);
 
-  const lastNumber = currentPage * 5;
-  const firstNumber = lastNumber - 5;
-  const forPrint = sortedTasksByDate.slice(firstNumber, lastNumber);
+  const paginatedTasks = (() => {
+    if (currentPage > pageCount) {
+      handleCurrentPageChange(1);
+    }
+    const lastNumber = currentPage * 5;
+    const firstNumber = lastNumber - 5;
+    return sortedTasksByDate.slice(firstNumber, lastNumber);
+  })();
 
   return (
     <div className="conainer">
@@ -77,15 +83,14 @@ function App() {
       />
       <Tasks
         taskArray={taskArray}
-        filtredTaskArray={forPrint}
+        paginatedTasks={paginatedTasks}
         handleTasksArrayChange={handleTasksArrayChange}
       />
       {pageCount > 1 ? (
         <Pagination
           pageCount={pageCount}
           currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          paginatedTasks={paginatedTasks}
+          handleCurrentPageChange={handleCurrentPageChange}
         />
       ) : null}
     </div>

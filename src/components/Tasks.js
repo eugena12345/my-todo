@@ -1,11 +1,11 @@
 import Task from "./Task";
 import styles from "./Tasks.module.css";
 
-const Tasks = ({ taskArray, filtredTaskArray, handleTasksArrayChange }) => {
+const Tasks = ({ taskArray, paginatedTasks, handleTasksArrayChange }) => {
   return (
     <div className={styles.p}>
-      {filtredTaskArray.length
-        ? filtredTaskArray.map((el) => {
+      {paginatedTasks.length
+        ? paginatedTasks.map((el) => {
             return (
               <div key={el.id}>
                 <Task
