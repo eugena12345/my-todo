@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import styles from "./Top.module.css";
 import { v4 as uuidv4 } from "uuid";
+const ALL = null;
+const DONE = true;
+const UNDONE = false;
+
 
 const TopBar = ({
   taskArray,
@@ -10,6 +14,7 @@ const TopBar = ({
   typeFilterByStatus,
   handleTypeFilterByStatusChange,
   getTask,
+  params,
 }) => {
   const [value, setValue] = useState("");
 
@@ -18,9 +23,6 @@ const TopBar = ({
       return;
     }
     // здесь отправляем пост запрос через аксиос с текстом задачи
-
-
-
 
     const newTaskArray = [
       ...taskArray,
@@ -33,7 +35,7 @@ const TopBar = ({
     ];
     handleTasksArrayChange(newTaskArray);
     setValue("");
-      };
+  };
 
   const addTaskWithEnter = (event) => {
     if (event.keyCode === 13) {
@@ -43,17 +45,17 @@ const TopBar = ({
 
   const sortByDate = (type) => {
     handleTypeSortByDateChange(type);
-    //здесь передать новые значения сортировки
-    getTask();
-    
+    //это костыль?
+    const newParams = { ...params };
+    newParams.typeOfSort = type;
+    getTask(newParams);
   };
 
   const sortByStatus = (type) => {
     handleTypeFilterByStatusChange(type);
-    //тут идет задержка типа сортировки
-    console.log(type);
-    //возможно тут не нужно вызывать фильтрацию
-    
+    const newParams = { ...params };
+    newParams.checked = type;
+    getTask(newParams);
   };
 
   return (
@@ -86,20 +88,20 @@ const TopBar = ({
         </div>
         <div className={styles.selectDone}>
           <button
-            onClick={() => sortByStatus("ALL")}
-            className={typeFilterByStatus === "ALL" ? styles.current : ""}
+            onClick={() => sortByStatus(ALL)}
+            className={typeFilterByStatus === ALL ? styles.current : ""}
           >
             All
           </button>
           <button
-            onClick={() => sortByStatus("UNDONE")}
-            className={typeFilterByStatus === "UNDONE" ? styles.current : ""}
+            onClick={() => sortByStatus(UNDONE)}
+            className={typeFilterByStatus === UNDONE ? styles.current : ""}
           >
             Undone
           </button>
           <button
-            onClick={() => sortByStatus("DONE")}
-            className={typeFilterByStatus === "DONE" ? styles.current : ""}
+            onClick={() => sortByStatus(DONE)}
+            className={typeFilterByStatus === DONE ? styles.current : ""}
           >
             Done
           </button>

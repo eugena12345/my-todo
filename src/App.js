@@ -18,7 +18,7 @@ function App() {
   const getTask = (params) => {
     
     axios
-      .get(`http://localhost:5000/tasks`, params
+      .get(`http://localhost:5000/tasks`, {params: params}
       
       // {
       //   params: {
@@ -84,13 +84,15 @@ function App() {
   //   const firstNumber = lastNumber - 5;
   //   return sortedTasksByDate.slice(firstNumber, lastNumber);
   // })();
-  let params = {params: {
+
+
+  //гы, один парамс или парамс-парамс)))
+  let params =  {
     typeOfSort: typeSortByDate,
     pageNumber: currentPage,
     checked: typeFilterByStatus,
     limitOnPage: taskPerPageCount,
-  }}
-
+  }
   return (
     <div className="conainer">
       {/* LOADING */}
@@ -102,6 +104,7 @@ function App() {
         typeFilterByStatus={typeFilterByStatus}
         handleTypeFilterByStatusChange={handleTypeFilterByStatusChange}
         getTask={getTask}
+        params={params}
       />
       <Tasks
         taskArray={taskArray}

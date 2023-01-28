@@ -7,10 +7,10 @@ const Tasks = ({ taskArray, paginatedTasks, handleTasksArrayChange }) => {
       {paginatedTasks.length
         ? paginatedTasks.map((el) => {
             return (
-              <div key={el.id}>
+              <div key={el._id}>
                 <Task
                   taskText={el.text}
-                  taskId={el.id}
+                  taskId={el._id}
                   taskArray={taskArray}
                   handleTasksArrayChange={handleTasksArrayChange}
                   statusDone={el.checked}
