@@ -9,11 +9,11 @@ const Tasks = ({ taskArray, paginatedTasks, handleTasksArrayChange }) => {
             return (
               <div key={el.id}>
                 <Task
-                  taskText={el.taskText}
+                  taskText={el.text}
                   taskId={el.id}
                   taskArray={taskArray}
                   handleTasksArrayChange={handleTasksArrayChange}
-                  statusDone={el.statusDone}
+                  statusDone={el.checked}
                 />
               </div>
             );

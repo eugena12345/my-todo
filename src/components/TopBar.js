@@ -9,16 +9,19 @@ const TopBar = ({
   handleTypeSortByDateChange,
   typeFilterByStatus,
   handleTypeFilterByStatusChange,
+  getTask,
 }) => {
   const [value, setValue] = useState("");
 
-  //не перерисовывается после того как понажимаешь кнопки сделано не сделано, потом все и сортировка по дате не перерисовывается.
-  //если какая-то задача помечена как выполненная при нажатой кнопке невыполнена, то она не перескакивает в выполненную
-  // при добавлении задачи перерисовываятся неотсортированный список задач
   const addTask = () => {
     if (value === "") {
       return;
     }
+    // здесь отправляем пост запрос через аксиос с текстом задачи
+
+
+
+
     const newTaskArray = [
       ...taskArray,
       {
@@ -40,9 +43,8 @@ const TopBar = ({
 
   const sortByDate = (type) => {
     handleTypeSortByDateChange(type);
-    //тут идет задержка типа сортировки
-    console.log(type);
-    //возможно тут не нужно вызывать фильтрацию
+    //здесь передать новые значения сортировки
+    getTask();
     
   };
 
@@ -70,14 +72,14 @@ const TopBar = ({
         <div className={styles.selectDate}>
           {/* тут нужо менять названия и способ использования функции */}
           <button
-            onClick={() => sortByDate("NEW")}
-            className={typeSortByDate === "NEW" ? styles.current : ""}
+            onClick={() => sortByDate("DESC")}
+            className={typeSortByDate === "DESC" ? styles.current : ""}
           >
             New
           </button>
           <button
-            onClick={() => sortByDate("OLD")}
-            className={typeSortByDate === "OLD" ? styles.current : ""}
+            onClick={() => sortByDate("ASC")}
+            className={typeSortByDate === "ASC" ? styles.current : ""}
           >
             Old
           </button>

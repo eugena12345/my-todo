@@ -2,77 +2,98 @@ import "./App.css";
 import TopBar from "./components/TopBar";
 import Tasks from "./components/Tasks";
 import Pagination from "./components/Pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
-  const [taskArray, setTaskArray] = useState([
-    {
-      id: 1,
-      taskText: "buy a cup",
-      statusDone: false,
-      createDate: 1,
-    },
-    { id: 2, taskText: "bla-bla", statusDone: true, createDate: 5 },
-    {
-      id: 3,
-      taskText: "go to the theatre",
-      statusDone: false,
-      createDate: 7,
-    },
-    {
-      id: 4,
-      taskText: "bake cookie",
-      statusDone: true,
-      createDate: 15,
-    },
-  ]);
+  const [taskArray, setTaskArray] = useState([]);
   const handleTasksArrayChange = (value) => {
     setTaskArray(value);
   };
+  const [taskCount, setTaskCount] = useState(0);
+  const handleTaskCountChange = (value) => {
+    setTaskCount(value);
+  };
+
+  const getTask = (params) => {
+    
+    axios
+      .get(`http://localhost:5000/tasks`, params
+      
+      // {
+      //   params: {
+      //     typeOfSort: typeSortByDate,
+      //     pageNumber: currentPage,
+      //     checked: typeFilterByStatus,
+      //     limitOnPage: taskPerPageCount,
+      //   },
+      // }
+      )
+      .then((response) => {
+        console.log(response.data);
+        console.log("hi from getTasks))))))))))))))))))");
+        handleTasksArrayChange(response.data.tasks);
+        handleTaskCountChange(response.data.taskCounter);
+        //?????????????как это реализовать через async await получается нужно создать функцию и тут же вызвать, она выглядит более громоздко/ этот вопрос был до вынесения в отдельную функцию. функция была внутри юзэффекта
+      });
+  };
+
+  useEffect(() => {
+    getTask(params);
+  }, []);
+
+  //создать функцию запроса списка задач с сервера и передать ее в пропсы
 
   const [currentPage, setCurrentPage] = useState(1);
-  const handleCurrentPageChange = (value)=>{
+  const handleCurrentPageChange = (value) => {
     setCurrentPage(value);
-  }
-  const [typeSortByDate, setTypeSortByDate] = useState("OLD");
+  };
+  const [typeSortByDate, setTypeSortByDate] = useState("ASC");
   const handleTypeSortByDateChange = (value) => {
     setTypeSortByDate(value);
   };
 
-  const [typeFilterByStatus, setTypeFilterByStatus] = useState("ALL");
+  const [typeFilterByStatus, setTypeFilterByStatus] = useState();
   const handleTypeFilterByStatusChange = (value) => {
     setTypeFilterByStatus(value);
   };
 
-  const filteredTasksBStatus = (() => {
-    return taskArray.filter(
-      (item) =>
-        item.statusDone === (typeFilterByStatus === "DONE") ||
-        typeFilterByStatus === "ALL"
-    );
-  })();
+  // const filteredTasksBStatus = (() => {
+  //   return taskArray.filter(
+  //     (item) =>
+  //       item.statusDone === (typeFilterByStatus === "DONE") ||
+  //       typeFilterByStatus === "ALL"
+  //   );
+  // })();
 
-  const sortedTasksByDate = (() => {
-    return [...filteredTasksBStatus].sort((a, b) =>
-      typeSortByDate === "OLD"
-        ? a.createDate - b.createDate
-        : b.createDate - a.createDate
-    );
-  })();
+  // const sortedTasksByDate = (() => {
+  //   return [...filteredTasksBStatus].sort((a, b) =>
+  //     typeSortByDate === "OLD"
+  //       ? a.createdAt - b.createdAt
+  //       : b.createdAt - a.createdAt
+  //   );
+  // })();
+  const taskPerPageCount = 5;
+  let pageCount = Math.ceil(taskCount / taskPerPageCount);
 
-  let pageCount = Math.ceil(sortedTasksByDate.length / 5);
+  // const paginatedTasks = (() => {
+  //   if (currentPage > pageCount) {
+  //     handleCurrentPageChange(1);
+  //   }
+  //   const lastNumber = currentPage * 5;
+  //   const firstNumber = lastNumber - 5;
+  //   return sortedTasksByDate.slice(firstNumber, lastNumber);
+  // })();
+  let params = {params: {
+    typeOfSort: typeSortByDate,
+    pageNumber: currentPage,
+    checked: typeFilterByStatus,
+    limitOnPage: taskPerPageCount,
+  }}
 
-  const paginatedTasks = (() => {
-    if (currentPage > pageCount) {
-      handleCurrentPageChange(1);
-    }
-    const lastNumber = currentPage * 5;
-    const firstNumber = lastNumber - 5;
-    return sortedTasksByDate.slice(firstNumber, lastNumber);
-  })();
-  
   return (
     <div className="conainer">
+      {/* LOADING */}
       <TopBar
         taskArray={taskArray}
         handleTasksArrayChange={handleTasksArrayChange}
@@ -80,10 +101,11 @@ function App() {
         handleTypeSortByDateChange={handleTypeSortByDateChange}
         typeFilterByStatus={typeFilterByStatus}
         handleTypeFilterByStatusChange={handleTypeFilterByStatusChange}
+        getTask={getTask}
       />
       <Tasks
         taskArray={taskArray}
-                paginatedTasks={paginatedTasks}
+        paginatedTasks={taskArray} ///тут исправлять!!!!!!!!!!!!
         handleTasksArrayChange={handleTasksArrayChange}
       />
       {pageCount > 1 ? (
@@ -91,7 +113,6 @@ function App() {
           pageCount={pageCount}
           currentPage={currentPage}
           handleCurrentPageChange={handleCurrentPageChange}
-         
         />
       ) : null}
     </div>
