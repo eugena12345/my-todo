@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styles from "./Top.module.css";
-import { v4 as uuidv4 } from "uuid";
+//import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 const ALL = null;
 const DONE = true;
 const UNDONE = false;
-
 
 const TopBar = ({
   taskArray,
@@ -17,23 +17,15 @@ const TopBar = ({
   params,
 }) => {
   const [value, setValue] = useState("");
+  const newParams = { ...params };
 
   const addTask = () => {
     if (value === "") {
       return;
     }
-    // здесь отправляем пост запрос через аксиос с текстом задачи
-
-    const newTaskArray = [
-      ...taskArray,
-      {
-        id: uuidv4(),
-        taskText: value,
-        statusDone: false,
-        createDate: Date.now(),
-      },
-    ];
-    handleTasksArrayChange(newTaskArray);
+    axios
+      .post(`http://localhost:5000/task`, { text: value })
+      .then(getTask(newParams));
     setValue("");
   };
 
@@ -46,14 +38,12 @@ const TopBar = ({
   const sortByDate = (type) => {
     handleTypeSortByDateChange(type);
     //это костыль?
-    const newParams = { ...params };
     newParams.typeOfSort = type;
     getTask(newParams);
   };
 
   const sortByStatus = (type) => {
     handleTypeFilterByStatusChange(type);
-    const newParams = { ...params };
     newParams.checked = type;
     getTask(newParams);
   };
