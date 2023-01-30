@@ -110,6 +110,8 @@ function App() {
         taskArray={taskArray}
         paginatedTasks={taskArray} ///тут исправлять!!!!!!!!!!!!
         handleTasksArrayChange={handleTasksArrayChange}
+        params = {params}
+        getTask={getTask}
       />
       {pageCount > 1 ? (
         <Pagination

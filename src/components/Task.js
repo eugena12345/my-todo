@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Task.module.css";
+import axios from "axios";
 
 const Task = ({
   taskText,
@@ -7,14 +8,22 @@ const Task = ({
   statusDone,
   taskArray,
   handleTasksArrayChange,
+  params,
+  getTask,
 }) => {
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState("");
-  const [checked, setChecked] = useState(statusDone);
+  const [isChecked, setIsChecked] = useState(statusDone);
 
   const deleteTask = (taskId) => {
-    const newtaskArray = taskArray.filter((item) => item.id !== taskId);
-    handleTasksArrayChange(newtaskArray);
+    axios
+      .delete(`http://localhost:5000/task/${taskId}`)
+      .then((res) => {
+        getTask(params);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   const editeTask = (taskId, taskText) => {
     setEdit(true);
@@ -22,13 +31,19 @@ const Task = ({
   };
 
   const saveChangedTask = (taskId) => {
-    const changedTaskArray = [...taskArray].map((item) => {
-      if (item.id === taskId) {
-        item.taskText = value;
-      }
-      return item;
-    });
-    handleTasksArrayChange(changedTaskArray);
+    axios
+      .patch(`http://localhost:5000/task/${taskId}`, { text: value })
+      .then(
+        console.log(
+          "-retext--retext--retext--retext--retext--retext--retext--retext-"
+        )
+      )
+      .then((res) => {
+        getTask(params);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     setEdit(false);
   };
   const changeTaskWithEnter = (event, taskId) => {
@@ -39,28 +54,23 @@ const Task = ({
       setEdit(false);
     }
   };
-  ////////////////////////убрать 1 из названия, ниже эксперимент
-  const changeStatus1 = (taskId) => {
-    setChecked(!checked);
-    const newTaskArray = taskArray.map((item) => {
-      if (item.id === taskId) {
-        return { ...item, statusDone: !checked };
-      }
-      return item;
-    });
-    handleTasksArrayChange(newTaskArray);
-  };
-  /////////////////////////////////////// пример
+  //////////////////HELP_________HELP_____________HELP___________HELP
   const changeStatus = (taskId) => {
-    setChecked(!checked);
-    const newTaskArray = taskArray.map((item) => {
-      return {
-        ...item,
-        statusDone: item.id === taskId ? !checked : item.statusDone,
-      };
-    });
-
-    handleTasksArrayChange(newTaskArray);
+    console.log(isChecked);
+    axios
+      .patch(`http://localhost:5000/task/${taskId}`, { checked: !isChecked })
+      .then(
+        console.log(
+          "-o--V---o--V--o--V--o--V--o--V--o--V--o--V--o--V--o--V--o--V--o--V--o--V--o--V-"
+        )
+      )
+      .then((res) => {
+        getTask(params);
+        setIsChecked(!isChecked);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   //////////////////////////////////////////////
@@ -84,7 +94,7 @@ const Task = ({
           <input
             type="checkbox"
             className={styles.checkbox}
-            checked={checked}
+            checked={isChecked}
             onChange={() => changeStatus(taskId)}
           />
           <div

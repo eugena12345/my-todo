@@ -1,7 +1,7 @@
 import Task from "./Task";
 import styles from "./Tasks.module.css";
 
-const Tasks = ({ taskArray, paginatedTasks, handleTasksArrayChange }) => {
+const Tasks = ({ taskArray, paginatedTasks, handleTasksArrayChange, params, getTask }) => {
   return (
     <div className={styles.p}>
       {paginatedTasks.length
@@ -14,6 +14,8 @@ const Tasks = ({ taskArray, paginatedTasks, handleTasksArrayChange }) => {
                   taskArray={taskArray}
                   handleTasksArrayChange={handleTasksArrayChange}
                   statusDone={el.checked}
+                  params={params}
+                  getTask={getTask}
                 />
               </div>
             );
