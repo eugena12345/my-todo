@@ -14,6 +14,10 @@ function App() {
   const handleTaskCountChange = (value) => {
     setTaskCount(value);
   };
+  const [isLoading, setIsLoading] = useState(false);
+  const handleIsLoading = (value)=>{
+    setIsLoading(value)
+  }
 
   const getTask = (params) => {
     axios
@@ -94,6 +98,9 @@ function App() {
         handleTypeFilterByStatusChange={handleTypeFilterByStatusChange}
         getTask={getTask}
         params={params}
+        handleCurrentPageChange={handleCurrentPageChange}
+        taskCount={taskCount}
+        taskPerPageCount={taskPerPageCount}
       />
       <Tasks
         taskArray={taskArray}

@@ -15,6 +15,9 @@ const TopBar = ({
   handleTypeFilterByStatusChange,
   getTask,
   params,
+  handleCurrentPageChange,
+  taskCount,
+  taskPerPageCount,
 }) => {
   const [value, setValue] = useState("");
   const newParams = { ...params };
@@ -23,7 +26,25 @@ const TopBar = ({
     if (value === "") {
       return;
     }
-    //добавить переадресацию на последнюю страницу, при добавлении новой задачи и если сортировка от старых к новым, или на первую страницу, если от новых к старым??? 
+    let newCurrentPage;
+    if (newParams.typeOfSort === "ASC") {
+      newCurrentPage = Math.ceil(taskCount / taskPerPageCount);
+      console.log(newCurrentPage);
+      console.log(taskCount / taskPerPageCount);
+
+      if (taskCount / taskPerPageCount-newCurrentPage === 0) {
+        newCurrentPage = Math.ceil(taskCount / taskPerPageCount + 1);
+        console.log(newCurrentPage);
+      }
+    } else {
+      newCurrentPage = 1;
+      console.log(newCurrentPage);
+    }
+
+    handleCurrentPageChange(newCurrentPage);
+    newParams.pageNumber = newCurrentPage;
+
+    //добавить переадресацию на последнюю страницу, при добавлении новой задачи и если сортировка от старых к новым, или на первую страницу, если от новых к старым???
     axios
       .post(`http://localhost:5000/task`, { text: value })
       .then(getTask(newParams));
