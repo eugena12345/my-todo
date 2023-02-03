@@ -16,19 +16,8 @@ function App() {
   };
 
   const getTask = (params) => {
-    
     axios
-      .get(`http://localhost:5000/tasks`, {params: params}
-      
-      // {
-      //   params: {
-      //     typeOfSort: typeSortByDate,
-      //     pageNumber: currentPage,
-      //     checked: typeFilterByStatus,
-      //     limitOnPage: taskPerPageCount,
-      //   },
-      // }
-      )
+      .get(`http://localhost:5000/tasks`, { params: params })
       .then((response) => {
         console.log(response.data);
         console.log("hi from getTasks))))))))))))))))))");
@@ -42,11 +31,12 @@ function App() {
     getTask(params);
   }, []);
 
-  //создать функцию запроса списка задач с сервера и передать ее в пропсы
-
   const [currentPage, setCurrentPage] = useState(1);
   const handleCurrentPageChange = (value) => {
     setCurrentPage(value);
+
+    //хотелось бы прямо здесь добавить вызов получить таски, но не успевает измениться страница в объекте с данными о новой текущей странице
+    //getTask(params);
   };
   const [typeSortByDate, setTypeSortByDate] = useState("ASC");
   const handleTypeSortByDateChange = (value) => {
@@ -85,14 +75,13 @@ function App() {
   //   return sortedTasksByDate.slice(firstNumber, lastNumber);
   // })();
 
-
   //гы, один парамс или парамс-парамс)))
-  let params =  {
+  let params = {
     typeOfSort: typeSortByDate,
     pageNumber: currentPage,
     checked: typeFilterByStatus,
     limitOnPage: taskPerPageCount,
-  }
+  };
   return (
     <div className="conainer">
       {/* LOADING */}
@@ -110,7 +99,7 @@ function App() {
         taskArray={taskArray}
         paginatedTasks={taskArray} ///тут исправлять!!!!!!!!!!!!
         handleTasksArrayChange={handleTasksArrayChange}
-        params = {params}
+        params={params}
         getTask={getTask}
       />
       {pageCount > 1 ? (
@@ -118,6 +107,8 @@ function App() {
           pageCount={pageCount}
           currentPage={currentPage}
           handleCurrentPageChange={handleCurrentPageChange}
+          getTask={getTask}
+          params={params}
         />
       ) : null}
     </div>
