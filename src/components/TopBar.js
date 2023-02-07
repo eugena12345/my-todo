@@ -18,6 +18,7 @@ const TopBar = ({
   handleCurrentPageChange,
   taskCount,
   taskPerPageCount,
+  handleIsLoading,
 }) => {
   const [value, setValue] = useState("");
   const newParams = { ...params };
@@ -29,10 +30,7 @@ const TopBar = ({
     let newCurrentPage;
     if (newParams.typeOfSort === "ASC") {
       newCurrentPage = Math.ceil(taskCount / taskPerPageCount);
-      console.log(newCurrentPage);
-      console.log(taskCount / taskPerPageCount);
-
-      if (taskCount / taskPerPageCount-newCurrentPage === 0) {
+      if (taskCount / taskPerPageCount - newCurrentPage === 0) {
         newCurrentPage = Math.ceil(taskCount / taskPerPageCount + 1);
         console.log(newCurrentPage);
       }
@@ -43,12 +41,13 @@ const TopBar = ({
 
     handleCurrentPageChange(newCurrentPage);
     newParams.pageNumber = newCurrentPage;
-
+    //handleIsLoading(true);
     //добавить переадресацию на последнюю страницу, при добавлении новой задачи и если сортировка от старых к новым, или на первую страницу, если от новых к старым???
     axios
       .post(`http://localhost:5000/task`, { text: value })
       .then(getTask(newParams));
     setValue("");
+    //handleIsLoading(false);
   };
 
   const addTaskWithEnter = (event) => {

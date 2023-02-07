@@ -4,8 +4,10 @@ import Tasks from "./components/Tasks";
 import Pagination from "./components/Pagination";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import LogIn from './components/LogIn'
 
 function App() {
+  const [isLogged, setIsLogged] = useState('false');
   const [taskArray, setTaskArray] = useState([]);
   const handleTasksArrayChange = (value) => {
     setTaskArray(value);
@@ -15,20 +17,26 @@ function App() {
     setTaskCount(value);
   };
   const [isLoading, setIsLoading] = useState(false);
-  const handleIsLoading = (value)=>{
-    setIsLoading(value)
-  }
-
+  const handleIsLoading = (value) => {
+    setIsLoading(value);
+  };
+let newLoading = false;
   const getTask = (params) => {
+    //тут не изменяется состоятние isLoading
+    // setIsLoading(prevState=>!prevState);
+    // console.log(isLoading)    ;
+    newLoading=true;
     axios
       .get(`http://localhost:5000/tasks`, { params: params })
       .then((response) => {
         console.log(response.data);
-        console.log("hi from getTasks))))))))))))))))))");
         handleTasksArrayChange(response.data.tasks);
         handleTaskCountChange(response.data.taskCounter);
         //?????????????как это реализовать через async await получается нужно создать функцию и тут же вызвать, она выглядит более громоздко/ этот вопрос был до вынесения в отдельную функцию. функция была внутри юзэффекта
       });
+    // setIsLoading(prevState=>!prevState);
+    // console.log(isLoading);
+    newLoading=false;
   };
 
   useEffect(() => {
@@ -88,7 +96,8 @@ function App() {
   };
   return (
     <div className="conainer">
-      {/* LOADING */}
+      {newLoading ? <h1>"LOADING"</h1> : null}
+      <LogIn/>
       <TopBar
         taskArray={taskArray}
         handleTasksArrayChange={handleTasksArrayChange}
@@ -97,6 +106,7 @@ function App() {
         typeFilterByStatus={typeFilterByStatus}
         handleTypeFilterByStatusChange={handleTypeFilterByStatusChange}
         getTask={getTask}
+        handleIsLoading={handleIsLoading}
         params={params}
         handleCurrentPageChange={handleCurrentPageChange}
         taskCount={taskCount}

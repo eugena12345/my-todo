@@ -1,0 +1,18 @@
+.frame {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.login {
+display: flex;
+margin-bottom: 5px;
+align-content: space-between;
+height: 40px;
+justify-content: center;
+}
+
+button{
+    justify-content: center;
+}
+
