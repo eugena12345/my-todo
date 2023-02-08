@@ -20,6 +20,10 @@ function App() {
   const handleIsLoading = (value) => {
     setIsLoading(value);
   };
+  const [userId, setUserId] = useState(null);
+  const handleUserId = (value) => {
+    setUserId(value);
+  }
 let newLoading = false;
   const getTask = (params) => {
     //тут не изменяется состоятние isLoading
@@ -93,11 +97,12 @@ let newLoading = false;
     pageNumber: currentPage,
     checked: typeFilterByStatus,
     limitOnPage: taskPerPageCount,
+    userId: userId,
   };
   return (
     <div className="conainer">
       {newLoading ? <h1>"LOADING"</h1> : null}
-      <LogIn/>
+      <LogIn handleUserId={handleUserId}/>
       <TopBar
         taskArray={taskArray}
         handleTasksArrayChange={handleTasksArrayChange}
