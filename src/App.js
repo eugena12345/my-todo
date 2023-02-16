@@ -1,13 +1,15 @@
 import "./App.css";
-import TopBar from "./components/TopBar";
-import Tasks from "./components/Tasks";
-import Pagination from "./components/Pagination";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
-import LogIn from './components/LogIn'
+import LogIn from "./components/LogIn";
+import { Routes, Route, Link } from "react-router-dom";
+import Todos from "./components/Todos";
+import RequireAuth from "./hoc/RequireAuth";
+import Login2 from "./components/Login2";
 
 function App() {
-  const [isLogged, setIsLogged] = useState('false');
+  const [isLogged, setIsLogged] = useState("false");
   const [taskArray, setTaskArray] = useState([]);
   const handleTasksArrayChange = (value) => {
     setTaskArray(value);
@@ -21,15 +23,16 @@ function App() {
     setIsLoading(value);
   };
   const [userId, setUserId] = useState(null);
+
   const handleUserId = (value) => {
     setUserId(value);
-  }
-let newLoading = false;
+  };
+  let newLoading = false;
   const getTask = (params) => {
     //тут не изменяется состоятние isLoading
     // setIsLoading(prevState=>!prevState);
     // console.log(isLoading)    ;
-    newLoading=true;
+    newLoading = true;
     axios
       .get(`http://localhost:5000/tasks`, { params: params })
       .then((response) => {
@@ -40,7 +43,7 @@ let newLoading = false;
       });
     // setIsLoading(prevState=>!prevState);
     // console.log(isLoading);
-    newLoading=false;
+    newLoading = false;
   };
 
   useEffect(() => {
@@ -102,37 +105,33 @@ let newLoading = false;
   return (
     <div className="conainer">
       {newLoading ? <h1>"LOADING"</h1> : null}
-      <LogIn handleUserId={handleUserId}/>
-      <TopBar
-        taskArray={taskArray}
-        handleTasksArrayChange={handleTasksArrayChange}
-        typeSortByDate={typeSortByDate}
-        handleTypeSortByDateChange={handleTypeSortByDateChange}
-        typeFilterByStatus={typeFilterByStatus}
-        handleTypeFilterByStatusChange={handleTypeFilterByStatusChange}
-        getTask={getTask}
-        handleIsLoading={handleIsLoading}
-        params={params}
-        handleCurrentPageChange={handleCurrentPageChange}
-        taskCount={taskCount}
-        taskPerPageCount={taskPerPageCount}
-      />
-      <Tasks
-        taskArray={taskArray}
-        paginatedTasks={taskArray} ///тут исправлять!!!!!!!!!!!!
-        handleTasksArrayChange={handleTasksArrayChange}
-        params={params}
-        getTask={getTask}
-      />
-      {pageCount > 1 ? (
-        <Pagination
-          pageCount={pageCount}
-          currentPage={currentPage}
-          handleCurrentPageChange={handleCurrentPageChange}
-          getTask={getTask}
-          params={params}
+      <Routes>
+        <Route path="/login" element={<Login2  />} />
+        {/* //<Route path="/login" element={<LogIn handleUserId={handleUserId} />} /> */}
+        <Route
+          path="/todos"
+          element={
+            <RequireAuth userId={userId}>
+              <Todos
+                taskArray={taskArray}
+                handleTasksArrayChange={handleTasksArrayChange}
+                typeSortByDate={typeSortByDate}
+                handleTypeSortByDateChange={handleTypeSortByDateChange}
+                typeFilterByStatus={typeFilterByStatus}
+                handleTypeFilterByStatusChange={handleTypeFilterByStatusChange}
+                getTask={getTask}
+                handleIsLoading={handleIsLoading}
+                params={params}
+                handleCurrentPageChange={handleCurrentPageChange}
+                taskCount={taskCount}
+                taskPerPageCount={taskPerPageCount}
+                pageCount={pageCount}
+                currentPage={currentPage}
+              />
+            </RequireAuth>
+          }
         />
-      ) : null}
+      </Routes>
     </div>
   );
 }
