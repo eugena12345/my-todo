@@ -9,7 +9,10 @@ import RequireAuth from "./hoc/RequireAuth";
 import Login2 from "./components/Login2";
 
 function App() {
-  const [isLogged, setIsLogged] = useState("false");
+  const [isLogged, setIsLogged] = useState({accsessToken: ''});
+  const handleIsLogged = (value) => {
+    setIsLogged({accsessToken: value})
+  }
   const [taskArray, setTaskArray] = useState([]);
   const handleTasksArrayChange = (value) => {
     setTaskArray(value);
@@ -106,12 +109,14 @@ function App() {
     <div className="conainer">
       {newLoading ? <h1>"LOADING"</h1> : null}
       <Routes>
-        <Route path="/login" element={<Login2  />} />
+        <Route path="/login" element={<Login2 handleIsLogged={handleIsLogged} handleUserId={handleUserId} />} />
         {/* //<Route path="/login" element={<LogIn handleUserId={handleUserId} />} /> */}
         <Route
           path="/todos"
           element={
-            <RequireAuth userId={userId}>
+            <RequireAuth userId={userId}
+            accsessToken={isLogged.accsessToken}>
+              {console.log(`редирект произошел ${userId}`)}
               <Todos
                 taskArray={taskArray}
                 handleTasksArrayChange={handleTasksArrayChange}
