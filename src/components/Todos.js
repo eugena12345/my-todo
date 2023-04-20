@@ -17,6 +17,7 @@ const Todos = ({
   taskPerPageCount,
   pageCount,
   currentPage,
+  handleIsLogged,
 }) => {
   return (
     <div>
@@ -33,6 +34,7 @@ const Todos = ({
         handleCurrentPageChange={handleCurrentPageChange}
         taskCount={taskCount}
         taskPerPageCount={taskPerPageCount}
+        handleIsLogged={handleIsLogged}
       />
       <Tasks
         taskArray={taskArray}

@@ -9,7 +9,7 @@ import RequireAuth from "./hoc/RequireAuth";
 import Login2 from "./components/Login2";
 
 function App() {
-  const [isLogged, setIsLogged] = useState({accsessToken: ''});
+  const [isLogged, setIsLogged] = useState({accsessToken: ''}); //поменять название
   const handleIsLogged = (value) => {
     setIsLogged({accsessToken: value})
   }
@@ -132,6 +132,7 @@ function App() {
                 taskPerPageCount={taskPerPageCount}
                 pageCount={pageCount}
                 currentPage={currentPage}
+                handleIsLogged={handleIsLogged}
               />
             </RequireAuth>
           }

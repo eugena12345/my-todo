@@ -8,6 +8,7 @@ const RequireAuth = ({children, accsessToken, userId}) => {
 
 if(accsessToken==='') {
     console.log('redirect');
+    alert('Please, log in')
     return <Navigate to='/login'/>
     
 }

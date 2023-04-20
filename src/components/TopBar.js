@@ -19,6 +19,7 @@ const TopBar = ({
   taskCount,
   taskPerPageCount,
   handleIsLoading,
+  handleIsLogged,
 }) => {
   const [value, setValue] = useState("");
   const newParams = { ...params };
@@ -69,8 +70,13 @@ const TopBar = ({
     getTask(newParams);
   };
 
+  const setLogOut = () => {
+    handleIsLogged('')
+  }
+
   return (
     <div className={styles.first}>
+      <button onClick={setLogOut}>LogOut</button>
       <h1>To Do</h1>
       <div className={styles.inputTask}>
         <input
