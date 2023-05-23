@@ -154,6 +154,7 @@ function App() {
                 pageCount={pageCount}
                 currentPage={currentPage}
                 handleIsLogged={handleIsLogged}
+                accsessToken={isLogged.accsessToken}
               />
             </RequireAuth>
           }

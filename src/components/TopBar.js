@@ -20,6 +20,7 @@ const TopBar = ({
   taskPerPageCount,
   handleIsLoading,
   handleIsLogged,
+  accsessToken,
 }) => {
   const [value, setValue] = useState("");
   const newParams = { ...params };
@@ -44,8 +45,15 @@ const TopBar = ({
     newParams.pageNumber = newCurrentPage;
     //handleIsLoading(true);
     //добавить переадресацию на последнюю страницу, при добавлении новой задачи и если сортировка от старых к новым, или на первую страницу, если от новых к старым???
+    console.log(`отправка токена ${accsessToken}` )
     axios
-      .post(`http://localhost:5000/task`, { text: value, userId: newParams.userId})
+      .post(`http://localhost:5000/task`, { text: value, userId: newParams.userId}, {headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        "authorization": `Bearer ${accsessToken}`,
+      }})
       .then(getTask(newParams));
     setValue("");
     //handleIsLoading(false);
