@@ -9,10 +9,10 @@ import RequireAuth from "./hoc/RequireAuth";
 import Login2 from "./components/Login2";
 
 function App() {
-  const [isLogged, setIsLogged] = useState({accsessToken: ''}); //поменять название
+  const [isLogged, setIsLogged] = useState({ accsessToken: "" }); //поменять название на token
   const handleIsLogged = (value) => {
-    setIsLogged({accsessToken: value})
-  }
+    setIsLogged({ accsessToken: value });
+  };
   const [taskArray, setTaskArray] = useState([]);
   const handleTasksArrayChange = (value) => {
     setTaskArray(value);
@@ -36,8 +36,21 @@ function App() {
     // setIsLoading(prevState=>!prevState);
     // console.log(isLoading)    ;
     newLoading = true;
+    console.log("запрашиваются таски");
+    console.log('^^^^^^^^^^^^^^^^^^^^^^^6', isLogged.accsessToken);
+
     axios
-      .get(`http://localhost:5000/tasks`, { params: params })
+      .get(
+        `http://localhost:5000/tasks`,
+        { params: params,           headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          "authorization": `Bearer ${isLogged.accsessToken}`,
+        }, },
+
+      )
       .then((response) => {
         console.log(response.data);
         handleTasksArrayChange(response.data.tasks);
@@ -109,14 +122,22 @@ function App() {
     <div className="conainer">
       {newLoading ? <h1>"LOADING"</h1> : null}
       <Routes>
-        <Route path="/login" element={<Login2 handleIsLogged={handleIsLogged} handleUserId={handleUserId} />} />
+        <Route
+          path="/login"
+          element={
+            <Login2
+              handleIsLogged={handleIsLogged}
+              handleUserId={handleUserId}
+            />
+          }
+        />
         {/* //<Route path="/login" element={<LogIn handleUserId={handleUserId} />} /> */}
         <Route
           path="/todos"
           element={
-            <RequireAuth userId={userId}
-            accsessToken={isLogged.accsessToken}>
-              {console.log(`редирект произошел ${userId}`)}
+            <RequireAuth userId={userId} accsessToken={isLogged.accsessToken}>
+              {console.log(`редирект произошел ${userId}  парамс ${params}`)}
+              {console.log(params)}
               <Todos
                 taskArray={taskArray}
                 handleTasksArrayChange={handleTasksArrayChange}

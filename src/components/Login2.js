@@ -26,17 +26,16 @@ const Login2 = ({handleIsLogged, handleUserId}) => {
     try {
       const response = await axios.post(
         `http://localhost:5000/autorization`,
-        // JSON.stringify(
+       
         {
           userName: user,
           password: password,
+        },
+        
+        
+        {
+          headers: { "Content-Type": "application/json" },
         }
-        //),
-        //
-        // {
-        //   headers: { "Content-Type": "applications/json" },
-        //   withCredentials: true,
-        // }
       );
       console.log(JSON.stringify(response?.data));
       //const accessToken = response?.data?.accessToken;

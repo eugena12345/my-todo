@@ -72,6 +72,7 @@ const TopBar = ({
 
   const setLogOut = () => {
     handleIsLogged('')
+    // добавить запрос на логаут на бэк чтобы удалить токен из куки
   }
 
   return (
